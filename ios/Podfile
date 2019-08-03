@@ -28,6 +28,9 @@ target 'msuapp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  # react-native-vector-icons
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'msuappTests' do
     inherit! :search_paths
     # Pods for testing

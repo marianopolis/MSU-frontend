@@ -239,7 +239,7 @@ const icons = {
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    Posts: PostsPlaceholder,
+    Posts: PostsList,
     Files: FilesPlaceholder,
     Form: FormPlaceholder,
     Congress: CongressPlaceholder

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Card } from "react-native-elements";
+import { Card, Header } from "react-native-elements";
 
 import { getPosts } from "./api";
 
@@ -73,6 +73,13 @@ class PostsList extends Component {
 
   render = () => (
     <View style={styles.view}>
+    <Header
+      containerStyle={{ backgroundColor: "#02379E" }}
+      centerComponent={{
+        text: "Posts",
+        style: { color: "#fff", fontSize: 20 }
+      }}
+    />
       {this.state.posts ? (
         <FlatList
           data={this.state.posts}

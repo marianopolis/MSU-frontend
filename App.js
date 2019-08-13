@@ -1,19 +1,29 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
-
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  FlatList,
+  KeyboardAvoidingView
+} from "react-native";
+import {
   createMaterialTopTabNavigator,
-  createAppContainer,
+  createAppContainer
 } from "react-navigation";
 import {
   Header,
   Card,
+  ListItem,
   Button,
   Icon,
   Input,
+  Avatar
 } from "react-native-elements";
+
 
 import PostsList from "./src/PostsList";
 
@@ -22,9 +32,15 @@ const FormPlaceholder = () => (
     <Header
       centerComponent={{ text: "Form", style: { color: "#fff", fontSize: 20 } }}
     />
-    <ScrollView>
-      <FormCard />
-    </ScrollView>
+    <KeyboardAvoidingView
+      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      behavior="padding"
+      enabled
+    >
+      <ScrollView>
+        <FormCard />
+      </ScrollView>
+    </KeyboardAvoidingView>
   </View>
 );
 
@@ -79,21 +95,35 @@ const CongressPlaceholder = () => (
 class FormCard extends React.Component {
   render() {
     return (
-      <Card>
-        <Text> Have your say! </Text>
-        <Input multiline={true} placeholder="Your message" />
+      <View>
+        <Card style={{ marginBottom: 30 }}>
+          <Text>Name</Text>
+          <Input />
+        </Card>
+
+        <Card style={{ marginBottom: 30 }}>
+          <Text>Title</Text>
+          <Input />
+        </Card>
+
+        <Card style={{ marginBottom: 30 }}>
+          <Text>Message</Text>
+          <Input multiline={true} />
+        </Card>
+
         <Button
           icon={<Icon name="send" color="#ffffff" />}
           backgroundColor="#03A9F4"
           buttonStyle={{
             borderRadius: 0,
-            marginLeft: 0,
-            marginRight: 0,
+            marginLeft: 30,
+            marginRight: 30,
             marginBottom: 0,
+            marginTop: 10
           }}
           title="Send"
         />
-      </Card>
+      </View>
     );
   }
 }

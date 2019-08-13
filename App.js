@@ -1,6 +1,8 @@
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
+import TouchableScale from 'react-native-touchable-scale';
+import LinearGradient from 'react-native-linear-gradient'; // Only if no expo
 import {
   View,
   Text,
@@ -8,7 +10,8 @@ import {
   Image,
   ScrollView,
   FlatList,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Linking
 } from "react-native";
 import {
   createMaterialTopTabNavigator,
@@ -30,6 +33,7 @@ import PostsList from "./src/PostsList";
 const FormPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
     <Header
+      containerStyle={{backgroundColor: "#02379E"}}
       centerComponent={{ text: "Form", style: { color: "#fff", fontSize: 20 } }}
     />
     <KeyboardAvoidingView
@@ -47,9 +51,10 @@ const FormPlaceholder = () => (
 const CongressPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
     <Header
+      containerStyle={{ backgroundColor: "#02379E" }}
       centerComponent={{
         text: "Congress",
-        style: { color: "#fff", fontSize: 20 },
+        style: { color: "#fff", fontSize: 20 }
       }}
     />
     <ScrollView>
@@ -131,24 +136,78 @@ class FormCard extends React.Component {
 class MemberCard extends React.Component {
   render() {
     return (
-      <Card title={this.props.title}>
-        <Image
-          style={{ width: 50, height: 50 }}
-          source={{ uri: this.props.imageuri }}
-        />
-        <Text style={{ marginBottom: 10 }}>{this.props.text}</Text>
-        <Button
-          icon={<Icon name="chat" color="#ffffff" />}
-          backgroundColor="#03A9F4"
-          buttonStyle={{
-            borderRadius: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0,
-          }}
-          title="Contact"
-        />
-      </Card>
+      <ListItem
+        style={{ margin: 10, borderRadius: 5 }}
+        Component={TouchableScale}
+        friction={90} //
+        tension={100} // These props are passed to the parent component (here TouchableScale)
+        activeScale={0.95} //
+        linearGradientProps={{
+          colors: ["#3890e8", "#02379E"],
+          start: [1, 0],
+          end: [0.2, 0]
+        }}
+        ViewComponent={LinearGradient} // Remove this line if using Expo
+        leftAvatar={{ rounded: true, source: { uri: this.props.imageuri } }}
+        title={this.props.title}
+        titleStyle={{ color: "white", fontWeight: "bold" }}
+        subtitleStyle={{ color: "white" }}
+        subtitle={this.props.text}
+        chevronColor="white"
+      />
+    );
+  }
+}
+
+const FilesPlaceholder = () => (
+  <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
+    <Header
+      containerStyle={{ backgroundColor: "#02379E" }}
+      centerComponent={{
+        text: "Files",
+        style: { color: "#fff", fontSize: 20 }
+      }}
+    />
+    <ScrollView style={{ padding: 20 }}>
+      <FileItem
+        title="file title"
+        subtitle="date"
+        chevron={true}
+        filename="filename"
+      />
+      <FileItem
+        title="file title"
+        subtitle="date"
+        chevron={true}
+        filename="filename"
+      />
+      <FileItem
+        title="file title"
+        subtitle="date"
+        chevron={true}
+        filename="filename"
+      />
+      <FileItem
+        title="file title"
+        subtitle="date"
+        chevron={true}
+        filename="filename"
+      />
+    </ScrollView>
+  </View>
+);
+
+class FileItem extends React.Component {
+  render() {
+    return (
+      <ListItem
+        style={{ borderBottomWidth: 1, borderColor: "#d4d4d4" }}
+        title={this.props.title}
+        subtitle={"Modified: " + this.props.subtitle}
+        subtitleStyle={{ color: "grey" }}
+        chevron={this.props.chevron}
+        filename={this.props.filename}
+      />
     );
   }
 }
@@ -162,23 +221,28 @@ const styles = StyleSheet.create({
 const icons = {
   Posts: {
     mod: MaterialIcon,
-    name: "chat",
+    name: "chat"
+  },
+  Files: {
+    mod: MaterialIcon,
+    name: "info"
   },
   Form: {
     mod: SimpleLineIcon,
-    name: "note",
+    name: "note"
   },
   Congress: {
     mod: MaterialIcon,
-    name: "people",
-  },
+    name: "people"
+  }
 };
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    Posts: PostsList,
+    Posts: PostsPlaceholder,
+    Files: FilesPlaceholder,
     Form: FormPlaceholder,
-    Congress: CongressPlaceholder,
+    Congress: CongressPlaceholder
   },
   {
     initialRouteName: "Posts",
@@ -187,14 +251,17 @@ const TabNavigator = createMaterialTopTabNavigator(
     tabBarOptions: {
       showIcon: true,
       labelStyle: styles.label,
+      style: {
+        backgroundColor: "#02379E"
+      }
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { name, mod: Icon } = icons[navigation.state.routeName];
         return <Icon name={name} color={tintColor} size={26} />;
-      },
-    }),
-  },
+      }
+    })
+  }
 );
 
 export default createAppContainer(TabNavigator);

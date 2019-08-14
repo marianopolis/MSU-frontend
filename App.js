@@ -2,7 +2,6 @@ import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import TouchableScale from 'react-native-touchable-scale';
-import LinearGradient from 'react-native-linear-gradient'; // Only if no expo
 import {
   View,
   Text,
@@ -15,10 +14,11 @@ import {
 } from "react-native";
 import {
   createMaterialTopTabNavigator,
-  createAppContainer
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
 } from "react-navigation";
 import {
-  Header,
   Card,
   ListItem,
   Button,
@@ -27,15 +27,12 @@ import {
   Avatar
 } from "react-native-elements";
 
-
-import PostsList from "./src/PostsList";
+import PostsScreen from "./src/PostsScreen";
+import FilesScreen from "./src/FilesScreen";
+import FormsScreen from "./src/FormsScreen";
 
 const FormPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
-    <Header
-      containerStyle={{backgroundColor: "#02379E"}}
-      centerComponent={{ text: "Form", style: { color: "#fff", fontSize: 20 } }}
-    />
     <KeyboardAvoidingView
       style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
       behavior="padding"
@@ -50,13 +47,6 @@ const FormPlaceholder = () => (
 
 const CongressPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
-    <Header
-      containerStyle={{ backgroundColor: "#02379E" }}
-      centerComponent={{
-        text: "Congress",
-        style: { color: "#fff", fontSize: 20 }
-      }}
-    />
     <ScrollView>
       <MemberCard
         title="Aria Khiabani"
@@ -142,71 +132,18 @@ class MemberCard extends React.Component {
         friction={90} //
         tension={100} // These props are passed to the parent component (here TouchableScale)
         activeScale={0.95} //
-        linearGradientProps={{
-          colors: ["#3890e8", "#02379E"],
-          start: [1, 0],
-          end: [0.2, 0]
-        }}
-        ViewComponent={LinearGradient} // Remove this line if using Expo
+        // linearGradientProps={{
+        //   colors: ["#3890e8", "#02379E"],
+        //   start: [1, 0],
+        //   end: [0.2, 0]
+        // }}
+        // ViewComponent={LinearGradient} // Remove this line if using Expo
         leftAvatar={{ rounded: true, source: { uri: this.props.imageuri } }}
         title={this.props.title}
         titleStyle={{ color: "white", fontWeight: "bold" }}
         subtitleStyle={{ color: "white" }}
         subtitle={this.props.text}
         chevronColor="white"
-      />
-    );
-  }
-}
-
-const FilesPlaceholder = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
-    <Header
-      containerStyle={{ backgroundColor: "#02379E" }}
-      centerComponent={{
-        text: "Files",
-        style: { color: "#fff", fontSize: 20 }
-      }}
-    />
-    <ScrollView style={{ padding: 20 }}>
-      <FileItem
-        title="file title"
-        subtitle="date"
-        chevron={true}
-        filename="filename"
-      />
-      <FileItem
-        title="file title"
-        subtitle="date"
-        chevron={true}
-        filename="filename"
-      />
-      <FileItem
-        title="file title"
-        subtitle="date"
-        chevron={true}
-        filename="filename"
-      />
-      <FileItem
-        title="file title"
-        subtitle="date"
-        chevron={true}
-        filename="filename"
-      />
-    </ScrollView>
-  </View>
-);
-
-class FileItem extends React.Component {
-  render() {
-    return (
-      <ListItem
-        style={{ borderBottomWidth: 1, borderColor: "#d4d4d4" }}
-        title={this.props.title}
-        subtitle={"Modified: " + this.props.subtitle}
-        subtitleStyle={{ color: "grey" }}
-        chevron={this.props.chevron}
-        filename={this.props.filename}
       />
     );
   }
@@ -237,23 +174,19 @@ const icons = {
   }
 };
 
-const TabNavigator = createMaterialTopTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   {
-    Posts: PostsList,
-    Files: FilesPlaceholder,
-    Form: FormPlaceholder,
+    Posts: PostsScreen,
+    Files: FilesScreen,
+    Form: FormsScreen,
     Congress: CongressPlaceholder
   },
   {
     initialRouteName: "Posts",
     swipeEnabled: true,
-    tabBarPosition: "bottom",
     tabBarOptions: {
       showIcon: true,
       labelStyle: styles.label,
-      style: {
-        backgroundColor: "#02379E"
-      }
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {

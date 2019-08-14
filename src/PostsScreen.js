@@ -6,8 +6,9 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
-import { Card, Header } from "react-native-elements";
+import { Card } from "react-native-elements";
 
 import { getPosts } from "./api";
 
@@ -20,11 +21,6 @@ const styles = StyleSheet.create({
   postContainer: {
     flex: 1,
     margin: 4,
-    elevation: 4,
-    shadowOffset: { width: 5, height: 5 },
-    shadowColor: "grey",
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
   },
   postTitle: {
     fontSize: 24,
@@ -58,31 +54,42 @@ const Post = ({ subject, body, time, onPress }) => (
   </TouchableOpacity>
 );
 
-class PostsList extends Component {
+class PostsScreen extends Component {
   state = {
     posts: null,
+    refreshing: false,
   };
 
   constructor(props) {
     super(props);
+    this.retrievePosts();
+  }
 
+  refresh = () => {
+    this.setState({ refreshing: true });
+    this.retrievePosts();
+  }
+
+  retrievePosts = () => {
     getPosts()
-      .then(posts => this.setState({ posts }))
-      .catch(err => console.error(err));
+      .then(posts => this.setState({ posts, refreshing: false }))
+      .catch(err => {
+        console.error(err);
+        this.setState({ refreshing: false });
+      });
   }
 
   render = () => (
     <View style={styles.view}>
-    <Header
-      containerStyle={{ backgroundColor: "#02379E" }}
-      centerComponent={{
-        text: "Posts",
-        style: { color: "#fff", fontSize: 20 }
-      }}
-    />
       {this.state.posts ? (
         <FlatList
           data={this.state.posts}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.refresh}
+            />
+          }
           renderItem={({ item }) => (
             <Post
               subject={item.subject}
@@ -98,4 +105,4 @@ class PostsList extends Component {
   );
 }
 
-export default PostsList;
+export default PostsScreen;

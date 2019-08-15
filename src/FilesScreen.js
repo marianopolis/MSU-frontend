@@ -17,10 +17,12 @@ import { getFiles, downloadFile } from "./api";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "stretch",
   },
-  fileContainer: {
+  card: {
     flex: 1,
-    margin: 4,
+    margin: 2,
   },
   fileTitle: {
     margin: 4,
@@ -38,17 +40,17 @@ const styles = StyleSheet.create({
   },
 });
 
-function download(url, key) {
-  downloadFile(url, key)
+function download(url, key, version) {
+  downloadFile(url, key, version)
     .then(path => {
       console.log(`ASS: ${path}`);
       FileViewer.open(path);
     });
 }
 
-const File = ({ desc, filename, time, url }) => (
-  <TouchableOpacity onPress={() => { download(url, filename); }}>
-    <Card style={styles.card}>
+const File = ({ desc, filename, version, time, url }) => (
+  <TouchableOpacity onPress={() => { download(url, filename, version); }}>
+    <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
 
       <Text style={styles.fileSubtitle}>
@@ -100,6 +102,7 @@ class FilesScreen extends Component {
               filename={item.key}
               time={item.inserted_at}
               url={item.url}
+              version={item.version}
             />
           )}
         />

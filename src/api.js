@@ -1,4 +1,5 @@
 import RNFetchBlob from "rn-fetch-blob";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const DIRS = RNFetchBlob.fs.dirs;
 const SERVER_URL = process.env.SERVER_URL;
@@ -11,7 +12,10 @@ export function getPosts() {
   return fetch(route("posts"), {
     method: "GET",
   })
-    .then(r => r.json())
+    .then(r => {
+      console.log(`${JSON.stringify(r)}`);
+      return r.json();
+    })
     .then(r => r.data);
 }
 
@@ -40,11 +44,21 @@ export function putForm(data) {
   });
 }
 
-export function downloadFile(url, key) {
-  return RNFetchBlob.config({
-    fileCache: true,
-    path: `${DIRS.DocumentDir}/${key}`,
-  })
-    .fetch("GET", url)
-    .then(r => r.path());
+export function downloadFile(url, key, version) {
+  const path = `${DIRS.DocumentDir}/${key}`;
+  const storage_key = `@${key}#${version}`;
+
+  return AsyncStorage.getItem(storage_key).then(
+    val =>
+      val ||
+      RNFetchBlob.config({
+        fileCache: true,
+        path: path,
+      })
+        .fetch("GET", url)
+        .then(r => {
+          AsyncStorage.setItem(storage_key, r.path());
+          return r.path();
+        }),
+  );
 }

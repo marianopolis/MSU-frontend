@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "stretch",
   },
-  postContainer: {
+  card: {
     flex: 1,
-    margin: 4,
+    margin: 2,
   },
   postTitle: {
     fontSize: 24,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
 const Post = ({ subject, body, time, onPress }) => (
   <TouchableOpacity onPress={onPress}>
-    <Card containerStyle={styles.postContainer}>
+    <Card containerStyle={styles.card}>
       <Text style={styles.postTitle}>{subject}</Text>
       <Text style={styles.postTime}>{time}</Text>
       <Text style={styles.postBody}>{body}</Text>

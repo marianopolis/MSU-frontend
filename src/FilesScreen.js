@@ -10,9 +10,10 @@ import {
 } from "react-native";
 
 import { Card } from "react-native-elements";
-import FileViewer from 'react-native-file-viewer';
+import FileViewer from "react-native-file-viewer";
 
 import { getFiles, downloadFile } from "./api";
+import NetworkedList from "./NetworkedList.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
 function download(url, key, version) {
   downloadFile(url, key, version)
     .then(path => {
-      console.log(`ASS: ${path}`);
       FileViewer.open(path);
     });
 }
@@ -60,57 +60,22 @@ const File = ({ desc, filename, version, time, url }) => (
   </TouchableOpacity>
 );
 
-class FilesScreen extends Component {
-  state = {
-    files: null,
-    refreshing: false,
-  };
-
-  constructor(props) {
-    super(props);
-    this.getFiles();
-  }
-
-  refresh = () => {
-    this.setState({ refreshing: true });
-    this.getFiles();
-  }
-
-  getFiles = () => {
-    getFiles()
-      .then(files => this.setState({ files, refreshing: false }))
-      .catch(err => {
-        console.error(err);
-        this.setState({ refreshing: false });
-      });
-  }
-
-  render = () => (
-    <View style={styles.container}>
-      {this.state.files ? (
-        <FlatList
-          data={this.state.files}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.refresh}
-            />
-          }
-          renderItem={({ item }) => (
-            <File
-              desc={item.desc}
-              filename={item.key}
-              time={item.inserted_at}
-              url={item.url}
-              version={item.version}
-            />
-          )}
-        />
-      ) : (
-        <ActivityIndicator size="large" />
-      )}
-    </View>
-  );
-}
+const FilesScreen = () => (
+  <NetworkedList
+    getData={() => getFiles()}
+    networkFailedMsg="Failed to retrive files"
+    listEmptyMsg="No files"
+    renderItem={({ item }) => (
+      <File
+        desc={item.desc}
+        filename={item.key}
+        time={item.inserted_at}
+        url={item.url}
+        version={item.version}
+      />
+    )}
+    keyExtractor={(item) => item.key}
+  />
+);
 
 export default FilesScreen;

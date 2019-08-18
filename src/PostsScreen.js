@@ -1,23 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  View,
   StyleSheet,
   Text,
-  FlatList,
   TouchableOpacity,
-  ActivityIndicator,
-  RefreshControl,
 } from "react-native";
 import { Card } from "react-native-elements";
 
 import { getPosts } from "./api";
+import NetworkedList from "./NetworkedList.js";
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "stretch",
-  },
   card: {
     flex: 1,
     margin: 2,
@@ -54,55 +46,20 @@ const Post = ({ subject, body, time, onPress }) => (
   </TouchableOpacity>
 );
 
-class PostsScreen extends Component {
-  state = {
-    posts: null,
-    refreshing: false,
-  };
-
-  constructor(props) {
-    super(props);
-    this.retrievePosts();
-  }
-
-  refresh = () => {
-    this.setState({ refreshing: true });
-    this.retrievePosts();
-  }
-
-  retrievePosts = () => {
-    getPosts()
-      .then(posts => this.setState({ posts, refreshing: false }))
-      .catch(err => {
-        console.error(err);
-        this.setState({ refreshing: false });
-      });
-  }
-
-  render = () => (
-    <View style={styles.view}>
-      {this.state.posts ? (
-        <FlatList
-          data={this.state.posts}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.refresh}
-            />
-          }
-          renderItem={({ item }) => (
-            <Post
-              subject={item.subject}
-              body={item.body}
-              time={item.inserted_at}
-            />
-          )}
-        />
-      ) : (
-        <ActivityIndicator size="large" />
-      )}
-    </View>
-  );
-}
+const PostsScreen = () => (
+  <NetworkedList
+    getData={() => getPosts()}
+    networkFailedMsg="Failed to retrieve posts"
+    listEmptyMsg="No posts"
+    renderItem={({ item }) => (
+      <Post
+        subject={item.subject}
+        body={item.body}
+        time={item.inserted_at}
+      />
+    )}
+    keyExtractor={(item) => `${item.id}`}
+  />
+);
 
 export default PostsScreen;

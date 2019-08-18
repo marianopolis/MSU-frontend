@@ -1,23 +1,29 @@
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
   createBottomTabNavigator,
   createStackNavigator,
   createAppContainer,
 } from "react-navigation";
-import {
-  ListItem,
-} from "react-native-elements";
+import { ListItem } from "react-native-elements";
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
 import FormsScreen from "./src/FormsScreen";
+
+const MemberCard = ({ imageuri, title, text }) => (
+  <ListItem
+    style={{ margin: 5 }}
+    leftAvatar={{ rounded: true, source: { uri: imageuri } }}
+    title={title}
+    titleStyle={{ color: "black", fontWeight: "bold" }}
+    subtitleStyle={{ color: "black" }}
+    subtitle={text}
+    chevronColor="black"
+  />
+);
 
 const CongressPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
@@ -61,22 +67,6 @@ const CongressPlaceholder = () => (
   </View>
 );
 
-class MemberCard extends React.Component {
-  render() {
-    return (
-      <ListItem
-        style={{ margin: 10, borderRadius: 5 }}
-        leftAvatar={{ rounded: true, source: { uri: this.props.imageuri } }}
-        title={this.props.title}
-        titleStyle={{ color: "black", fontWeight: "bold" }}
-        subtitleStyle={{ color: "black" }}
-        subtitle={this.props.text}
-        chevronColor="black"
-      />
-    );
-  }
-}
-
 const styles = StyleSheet.create({
   label: {
     fontSize: 10,
@@ -99,7 +89,7 @@ const icons = {
   Congress: {
     mod: MaterialIcon,
     name: "people",
-  }
+  },
 };
 
 const TabNavigator = createBottomTabNavigator(
@@ -123,7 +113,7 @@ const TabNavigator = createBottomTabNavigator(
         return <Icon name={name} color={tintColor} size={26} />;
       },
     }),
-  }
+  },
 );
 
 const RootNavigator = createStackNavigator(
@@ -131,10 +121,11 @@ const RootNavigator = createStackNavigator(
     tabNav: TabNavigator,
   },
   {
+    headerLayoutPreset: "center",
     defaultNavigationOptions: {
       headerTitle: "MSU",
     },
-  }
+  },
 );
 
 export default createAppContainer(RootNavigator);

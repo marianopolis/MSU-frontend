@@ -13,7 +13,6 @@ export function getPosts() {
     method: "GET",
   })
     .then(r => {
-      console.log(`${JSON.stringify(r)}`);
       return r.json();
     })
     .then(r => r.data);
@@ -46,7 +45,7 @@ export function putForm(data) {
 
 export function downloadFile(url, key, version) {
   const path = `${DIRS.DocumentDir}/${key}`;
-  const storage_key = `@${key}#${version}`;
+  const storage_key = `${key}#${version}`;
 
   return AsyncStorage.getItem(storage_key).then(
     val =>

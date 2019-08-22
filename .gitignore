@@ -1,3 +1,7 @@
+# Images are generated from the assets
+*.png
+!/assets/*.png
+
 build/
 
 # Android

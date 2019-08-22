@@ -1,8 +1,14 @@
+# Images are generated from the assets
+*.png
+!/assets/*.png
+
 build/
 
 # Android
 .gradle
 local.properties
+android/app/src/main/res/*
+!android/app/src/main/res/values/colors.xml
 
 # node.js
 node_modules/

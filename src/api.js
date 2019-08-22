@@ -45,19 +45,18 @@ export function putForm(data) {
 
 export function downloadFile(url, key, version) {
   const path = `${DIRS.DocumentDir}/${key}`;
-  const storage_key = `${key}#${version}`;
 
-  return AsyncStorage.getItem(storage_key).then(
-    val =>
-      val ||
-      RNFetchBlob.config({
-        fileCache: true,
-        path: path,
-      })
-        .fetch("GET", url)
-        .then(r => {
-          AsyncStorage.setItem(storage_key, r.path());
-          return r.path();
-        }),
+  return AsyncStorage.getItem(key).then(val =>
+    val === version
+      ? path
+      : RNFetchBlob.config({
+          fileCache: true,
+          path: path,
+        })
+          .fetch("GET", url)
+          .then(r => {
+            AsyncStorage.setItem(key, version);
+            return path;
+          }),
   );
 }

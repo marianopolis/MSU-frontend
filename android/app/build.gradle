@@ -126,6 +126,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        // FIXME: _may_ lead to crashes on some devices
+        enable "MissingDefaultResource"
+    }
 
     defaultConfig {
         applicationId "com.msucongress.mariapp"

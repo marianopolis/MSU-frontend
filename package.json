@@ -1,10 +1,11 @@
 {
   "name": "msuapp",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postversion": "npx react-native-version -r"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
@@ -29,6 +30,7 @@
     "eslint": "^6.1.0",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "^0.54.1",
+    "react-native-version": "^3.1.0",
     "react-test-renderer": "16.8.6"
   },
   "babel": {

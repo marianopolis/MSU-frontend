@@ -131,7 +131,7 @@ android {
         applicationId "com.msucongress.mariapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20001002 // last 3 digits correspond to build number
+        versionCode 20001002
         versionName "2.0.1"
     }
     splits {

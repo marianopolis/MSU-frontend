@@ -1,4 +1,4 @@
-package com.msuapp;
+package com.msucongress.mariapp;
 
 import android.app.Application;
 import android.util.Log;

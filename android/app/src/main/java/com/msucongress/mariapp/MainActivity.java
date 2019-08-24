@@ -1,4 +1,4 @@
-package com.msuapp;
+package com.msucongress.mariapp;
 
 import com.facebook.react.ReactActivity;
 

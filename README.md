@@ -1,6 +1,6 @@
 # msu-frontend
 
-!(MSU)[https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjUvKyznqbkAhWLdd8KHUq7B8oQjRx6BAgBEAQ&url=%2Furl%3Fsa%3Di%26source%3Dimages%26cd%3D%26ved%3D%26url%3Dhttp%253A%252F%252Fmsucongress.com%252F%26psig%3DAOvVaw2SacPKNeZG7XvwWWJ4V17k%26ust%3D1567104776391238&psig=AOvVaw2SacPKNeZG7XvwWWJ4V17k&ust=1567104776391238]
+!(MSU)[http://msucongress.com/wp-content/uploads/2017/10/msulogominutes.jpg]
 
 Hey there!
 

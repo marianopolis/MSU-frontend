@@ -1,6 +1,6 @@
 # msu-frontend
 
-!(MSU)[http://msucongress.com/wp-content/uploads/2017/10/msulogominutes.jpg]
+![MSU](http://msucongress.com/wp-content/uploads/2017/10/msulogominutes.jpg)
 
 Hey there!
 

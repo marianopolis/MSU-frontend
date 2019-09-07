@@ -12,6 +12,7 @@ import { ListItem } from "react-native-elements";
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
 import FormsScreen from "./src/FormsScreen";
+import EventsScreen from "./src/EventsScreen";
 
 const MemberCard = ({ imageuri, title, text }) => (
   <ListItem
@@ -86,6 +87,10 @@ const icons = {
     mod: SimpleLineIcon,
     name: "note",
   },
+  Events: {
+    mod: MaterialIcon,
+    name: "event",
+  },
   Congress: {
     mod: MaterialIcon,
     name: "people",
@@ -98,6 +103,7 @@ const TabNavigator = createBottomTabNavigator(
     Files: FilesScreen,
     // NOTE: Temporarily disabled
     // Form: FormsScreen,
+    Events: EventsScreen,
     Congress: CongressPlaceholder,
   },
   {

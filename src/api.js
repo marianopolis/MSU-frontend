@@ -8,22 +8,24 @@ function route(endpoint) {
   return `${SERVER_URL}/api/${endpoint}`;
 }
 
-export function getPosts() {
-  return fetch(route("posts"), {
-    method: "GET",
-  })
-    .then(r => {
-      return r.json();
-    })
-    .then(r => r.data);
-}
-
-export function getFiles() {
-  return fetch(route("files"), {
+function getData(item) {
+  return fetch(route(item), {
     method: "GET",
   })
     .then(r => r.json())
     .then(r => r.data);
+}
+
+export function getPosts() {
+  return getData("posts");
+}
+
+export function getFiles() {
+  return getData("files");
+}
+
+export function getEvents() {
+  return getData("events");
 }
 
 /** data: {

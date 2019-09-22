@@ -31,37 +31,37 @@ const CongressPlaceholder = () => (
     <ScrollView>
       <MemberCard
         title="Aria Khiabani"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/Aria-800x1068.jpg"
+        imageuri="./static/photos/Aria.jpg"
         text="President"
       />
       <MemberCard
         title="Ying Ge"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/YG-800x1068.jpg"
+        imageuri="./static/photos/YG.jpg"
         text="Vice President"
       />
       <MemberCard
         title="Amanda Morrone"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/Amanda-800x1068.jpg"
+        imageuri="./static/photos/Amanda.jpg"
         text="Vice President of Finance"
       />
       <MemberCard
         title="Ying Chen"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/YC-800x1068.jpg"
+        imageuri="./static/photos/YC.jpg"
         text="Coordinator of Communications"
       />
       <MemberCard
         title="Michael Chalkhoun"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/Michael-800x1068.jpg"
+        imageuri="./static/photos/Michael.jpg"
         text="Coordinator of Student Advocacy"
       />
       <MemberCard
         title="Darya Jabbari"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/Darya-800x1068.jpg"
+        imageuri="./static/photos/Darya.jpg"
         text="Coordinator of Social Justice"
       />
       <MemberCard
         title="Andrew Petrecca-Berthelet"
-        imageuri="https://msucongress.com/wp-content/uploads/2019/07/Andrew-800x1068.jpg"
+        imageuri="./static/photos/Andrew.jpg"
         text="Coordinator of Social Activities"
       />
     </ScrollView>

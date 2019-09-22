@@ -4,6 +4,7 @@ import {
   Text,
 } from "react-native";
 import { Card } from "react-native-elements";
+import Markdown from 'react-native-markdown-renderer';
 
 import { getPosts } from "./api";
 import NetworkedList from "./NetworkedList.js";
@@ -35,11 +36,12 @@ const styles = StyleSheet.create({
   },
 });
 
+
 const Post = ({ subject, body, time }) => (
   <Card containerStyle={styles.card}>
-    <Text style={styles.postTitle}>{subject}</Text>
+    <Markdown style={styles.postTitle}>{subject}</Markdown>
     <Text style={styles.postTime}>{time}</Text>
-    <Text style={styles.postBody}>{body}</Text>
+    <Markdown style={styles.postBody}>{body}</Markdown>
   </Card>
 );
 

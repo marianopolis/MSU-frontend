@@ -8,7 +8,13 @@ This is the official code that is used to create the frontend (the screen layout
 
 To encourage tech literacy for people of all backgrounds, this is the guide that uses simple terms to describe how to download and run this app.
 
+If there is a suggested reading present, the instructions are a summary of the aforementioned reading.
+
 ## Installing the Right Tools
+
+Suggested readings:
+* [Git](https://git-scm.com)
+* [NodeJS and npm](https://www.npmjs.com/get-npm)
 
 This project will NOT work if you do not install Git, NodeJS/npm or React Native.
 
@@ -23,6 +29,10 @@ JavaScript library and installation tool
 Next, install React-Native with npm by typing `npm install -g react-native-cli` in cmd (Windows) or Terminal (MacOS or Linux). This command installs React Native globally on your computer for all your projects.
 
 ## Downloading the Frontend
+
+Suggested readings: 
+* [GitHub Git Guide](https://guides.github.com/introduction/git-handbook/)
+* [Commanand Line Commands](https://www.thomas-krenn.com/en/wiki/Cmd_commands_under_Windows)
 
 Now, this is the cool part. Open cmd (Windows) or Terminal (MacOs or Linux).
 
@@ -73,6 +83,10 @@ And here are all the other folders:
 ## Running the App Locally
 
 ### Installing React Native dependencies
+
+Suggested readings:
+* [npm Installer](https://www.npmjs.com/)
+* [React Native Docs](https://facebook.github.io/react-native/docs/getting-started)
 
 Type
 `npm install`

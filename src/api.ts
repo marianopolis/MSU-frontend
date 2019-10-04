@@ -8,7 +8,7 @@ function route(endpoint) {
   return `${SERVER_URL}/api/${endpoint}`;
 }
 
-function getData(item) {
+function getData(item: String): Promise<String> {
   return fetch(route(item), {
     method: "GET",
   })
@@ -16,26 +16,24 @@ function getData(item) {
     .then(r => r.data);
 }
 
-export function getPosts() {
+export function getPosts(): Promise<String> {
   return getData("posts");
 }
 
-export function getFiles() {
+export function getFiles(): Promise<String> {
   return getData("files");
 }
 
-export function getEvents() {
+export function getEvents(): Promise<String> {
   return getData("events");
 }
 
-/** data: {
- *    name?: string,
- *    private?: bool,
- *    subject: string,
- *    body: string,
- *  }
- */
-export function putForm(data) {
+export function putForm(data: {
+  name?: string,
+  private: boolean,
+  subject: string,
+  body: string,
+}) {
   return fetch(route("forms"), {
     method: "POST",
     headers: {
@@ -45,7 +43,7 @@ export function putForm(data) {
   });
 }
 
-export function downloadFile(url, key, version) {
+export function downloadFile(url: string, key: string, version: string): Promise<String> {
   const path = `${DIRS.DocumentDir}/${key}`;
 
   return AsyncStorage.getItem(key).then(val =>

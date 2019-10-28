@@ -17,15 +17,31 @@ const styles = StyleSheet.create({
   },
 });
 
-class NetworkedList extends Component {
-  state = {
-    data: null,
-    failed: false,
+type NetworkedListProps = {
+  getData: () => Promise<string>,
+  networkFailedMsg: string,
+  listEmptyMsg: string,
+  renderItem: (item: any) => any,
+  keyExtractor: (item: any) => string
+};
 
-    // At construction, no data are loaded.
-    // Thus, we're already refreshing.
-    refreshing: true,
-  };
+type NetworkedListStates = {
+  data: any,
+  failed: boolean,
+  refreshing: boolean
+};
+
+class NetworkedList extends Component<NetworkedListProps, NetworkedListStates> {
+  constructor(props: NetworkedListProps) {
+    super(props);
+    this.state = {
+      data: null,
+      failed: false,
+      // At construction, no data are loaded.
+      // Thus, we're already refreshing.
+      refreshing: true,
+    };
+  }
 
   componentDidMount = () => {
     this.refreshData();
@@ -37,7 +53,7 @@ class NetworkedList extends Component {
     this.props
       .getData()
       .then(data => this.setState({ data, refreshing: false, failed: false }))
-      .catch(err => {
+      .catch((err: any) => {
         this.setState({ refreshing: false, failed: true });
         console.error(err);
       });
@@ -65,8 +81,8 @@ class NetworkedList extends Component {
                 <Text>{this.props.networkFailedMsg}</Text>
               </>
             ) : (
-              <Text>{this.props.listEmptyMsg}</Text>
-            )}
+                <Text>{this.props.listEmptyMsg}</Text>
+              )}
           </View>
         }
       />

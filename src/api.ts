@@ -4,11 +4,11 @@ import AsyncStorage from "@react-native-community/async-storage";
 const DIRS = RNFetchBlob.fs.dirs;
 const SERVER_URL = process.env.SERVER_URL;
 
-function route(endpoint) {
+function route(endpoint: string) {
   return `${SERVER_URL}/api/${endpoint}`;
 }
 
-function getData(item: String): Promise<String> {
+function getData(item: string): Promise<string> {
   return fetch(route(item), {
     method: "GET",
   })
@@ -16,21 +16,21 @@ function getData(item: String): Promise<String> {
     .then(r => r.data);
 }
 
-export function getPosts(): Promise<String> {
+export function getPosts(): Promise<string> {
   return getData("posts");
 }
 
-export function getFiles(): Promise<String> {
+export function getFiles(): Promise<string> {
   return getData("files");
 }
 
-export function getEvents(): Promise<String> {
+export function getEvents(): Promise<string> {
   return getData("events");
 }
 
 export function putForm(data: {
-  name?: string,
-  private: boolean,
+  name: string,
+  private?: boolean,
   subject: string,
   body: string,
 }) {

@@ -41,18 +41,24 @@ const styles = StyleSheet.create({
   },
 });
 
-function download(url, key, version) {
+function download(url: string, key: string, version: string) {
   downloadFile(url, key, version)
     .then(path => {
-      FileViewer.open(path);
+      FileViewer.open(`${path}`); // Hack for the error 'Argument of type 'String' is not assignable to parameter of type 'string'.'
     });
 }
 
-const File = ({ desc, filename, version, time, url }) => (
+const File = ({ desc, filename, version, time, url }:
+  {
+    desc: string,
+    filename: string,
+    version: string,
+    time: string,
+    url: string
+  }) => (
   <TouchableOpacity onPress={() => { download(url, filename, version); }}>
     <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
-
       <Text style={styles.fileSubtitle}>
         {filename} • {time}
       </Text>

@@ -50,16 +50,27 @@ const styles = StyleSheet.create({
   },
 });
 
-class FormsScreen extends Component {
-  state = {
-    name: "",
-    subject: "",
-    body: "",
-    status: null, // null | 'success' | 'error'
-  };
+type FormsScreenProps = {};
+type FormsScreenStates = {
+  name: string,
+  subject: string,
+  body: string,
+  status: string | null
+};
 
-  inputSubject = null;
-  inputBody = null;
+class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
+  constructor(props: FormsScreenProps) {
+    super(props);
+    this.state = {
+      name: "",
+      subject: "",
+      body: "",
+      status: null, // null | 'success' | 'error'
+    };
+  }
+
+  inputSubject: any = null;
+  inputBody: any = null;
 
   submit = () => {
     putForm({
@@ -152,7 +163,7 @@ class FormsScreen extends Component {
 
       <Button
         title="Submit"
-        style={styles.submitButton}
+        // style={styles.submitButton} // style and buttonStyle doesn't exist in props for Button
         onPress={this.submit}
       />
     </ScrollView>

@@ -14,15 +14,20 @@ import FilesScreen from "./src/FilesScreen";
 import FormsScreen from "./src/FormsScreen";
 import EventsScreen from "./src/EventsScreen";
 
-const MemberCard = ({ imageuri, title, text }) => (
+const MemberCard = ({ imageuri, title, text }:
+  {
+    imageuri: string,
+    title: string,
+    text: string
+  }) => (
   <ListItem
-    style={{ margin: 5 }}
+    // style={{ margin: 5 }} doesn't exist
     leftAvatar={{ rounded: true, source: { uri: imageuri } }}
     title={title}
     titleStyle={{ color: "black", fontWeight: "bold" }}
     subtitleStyle={{ color: "black" }}
     subtitle={text}
-    chevronColor="black"
+    // chevronColor="black" doesn't exist
   />
 );
 
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const icons = {
+const icons: {[key: string]: any} = {
   Posts: {
     mod: MaterialIcon,
     name: "chat",
@@ -115,7 +120,7 @@ const TabNavigator = createBottomTabNavigator(
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { name, mod: Icon } = icons[navigation.state.routeName];
+        const { name: string, mod: Icon }: any = icons[navigation.state.routeName];
         return <Icon name={name} color={tintColor} size={26} />;
       },
     }),

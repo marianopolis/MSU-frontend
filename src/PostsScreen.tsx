@@ -37,7 +37,11 @@ const styles = StyleSheet.create({
 });
 
 
-const Post = ({ subject, body, time }) => (
+const Post = ({ subject, body, time }: {
+  subject: string,
+  body: string,
+  time: string
+}) => (
   <Card containerStyle={styles.card}>
     <Markdown style={styles.postTitle}>{subject}</Markdown>
     <Text style={styles.postTime}>{time}</Text>

@@ -46,7 +46,7 @@ export function putForm(data: {
 export function downloadFile(url: string, key: string, version: string): Promise<String> {
   const path = `${DIRS.DocumentDir}/${key}`;
 
-  return AsyncStorage.getItem(key).then(val =>
+  return AsyncStorage.getItem(key).then((val: any) =>
     val === version
       ? path
       : RNFetchBlob.config({
@@ -54,7 +54,7 @@ export function downloadFile(url: string, key: string, version: string): Promise
           path: path,
         })
           .fetch("GET", url)
-          .then(r => {
+          .then((r: any) => {
             AsyncStorage.setItem(key, version);
             return path;
           }),

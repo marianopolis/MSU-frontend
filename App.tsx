@@ -120,7 +120,7 @@ const TabNavigator = createBottomTabNavigator(
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { name: string, mod: Icon }: any = icons[navigation.state.routeName];
+        const { name, mod: Icon }: {name: string, mod: any} = icons[navigation.state.routeName];
         return <Icon name={name} color={tintColor} size={26} />;
       },
     }),

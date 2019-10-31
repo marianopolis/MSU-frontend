@@ -1,10 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-} from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Card } from "react-native-elements";
-import Markdown from 'react-native-markdown-renderer';
+import Markdown from "react-native-markdown-renderer";
 
 import { getPosts } from "./api";
 import NetworkedList from "./NetworkedList.js";
@@ -36,12 +33,19 @@ const styles = StyleSheet.create({
   },
 });
 
-
-const Post = ({ subject, body, time }) => (
+const Post = ({
+  subject,
+  body,
+  time,
+}: {
+  subject: string;
+  body: string;
+  time: string;
+}) => (
   <Card containerStyle={styles.card}>
-    <Markdown style={styles.postTitle}>{subject}</Markdown>
+    <Markdown>{subject}</Markdown>
     <Text style={styles.postTime}>{time}</Text>
-    <Markdown style={styles.postBody}>{body}</Markdown>
+    <Markdown>{body}</Markdown>
   </Card>
 );
 
@@ -51,13 +55,9 @@ const PostsScreen = () => (
     networkFailedMsg="Failed to retrieve posts"
     listEmptyMsg="No posts"
     renderItem={({ item }) => (
-      <Post
-        subject={item.subject}
-        body={item.body}
-        time={item.inserted_at}
-      />
+      <Post subject={item.subject} body={item.body} time={item.inserted_at} />
     )}
-    keyExtractor={(item) => `${item.id}`}
+    keyExtractor={item => `${item.id}`}
   />
 );
 

@@ -43,9 +43,9 @@ const Post = ({
   time: string;
 }) => (
   <Card containerStyle={styles.card}>
-    <Markdown style={styles.postTitle}>{subject}</Markdown>
+    <Markdown>{subject}</Markdown>
     <Text style={styles.postTime}>{time}</Text>
-    <Markdown style={styles.postBody}>{body}</Markdown>
+    <Markdown>{body}</Markdown>
   </Card>
 );
 

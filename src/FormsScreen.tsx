@@ -52,10 +52,10 @@ const styles = StyleSheet.create({
 
 type FormsScreenProps = {};
 type FormsScreenStates = {
-  name: string,
-  subject: string,
-  body: string,
-  status: string | null
+  name: string;
+  subject: string;
+  body: string;
+  status: string | null;
 };
 
 class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
@@ -96,10 +96,7 @@ class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
       status: "success",
     });
 
-    Alert.alert(
-      'Success!',
-      'Your message has been submitted'
-    );
+    Alert.alert("Success!", "Your message has been submitted");
   };
 
   submitError = () => {
@@ -107,10 +104,7 @@ class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
       status: "error",
     });
 
-    Alert.alert(
-      'Failure',
-      'Failed to submit your message',
-    );
+    Alert.alert("Failure", "Failed to submit your message");
   };
 
   render = () => (

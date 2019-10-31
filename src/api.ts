@@ -29,10 +29,10 @@ export function getEvents(): Promise<string> {
 }
 
 export function putForm(data: {
-  name: string,
-  private?: boolean,
-  subject: string,
-  body: string,
+  name: string;
+  private?: boolean;
+  subject: string;
+  body: string;
 }) {
   return fetch(route("forms"), {
     method: "POST",
@@ -43,7 +43,11 @@ export function putForm(data: {
   });
 }
 
-export function downloadFile(url: string, key: string, version: string): Promise<String> {
+export function downloadFile(
+  url: string,
+  key: string,
+  version: string,
+): Promise<String> {
   const path = `${DIRS.DocumentDir}/${key}`;
 
   return AsyncStorage.getItem(key).then((val: any) =>

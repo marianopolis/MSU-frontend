@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const Event = ({ 
-  name, 
-  desc, 
-  time 
+const Event = ({
+  name,
+  desc,
+  time,
 }: {
-  name: string,
-  desc: string,
-  time: string,
+  name: string;
+  desc: string;
+  time: string;
 }) => (
   <Card containerStyle={styles.card}>
     <Text style={styles.title}>{name}</Text>

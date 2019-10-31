@@ -18,17 +18,17 @@ const styles = StyleSheet.create({
 });
 
 type NetworkedListProps = {
-  getData: () => Promise<string>,
-  networkFailedMsg: string,
-  listEmptyMsg: string,
-  renderItem: (item: any) => any,
-  keyExtractor: (item: any) => string
+  getData: () => Promise<string>;
+  networkFailedMsg: string;
+  listEmptyMsg: string;
+  renderItem: (item: any) => any;
+  keyExtractor: (item: any) => string;
 };
 
 type NetworkedListStates = {
-  data: any,
-  failed: boolean,
-  refreshing: boolean
+  data: any;
+  failed: boolean;
+  refreshing: boolean;
 };
 
 class NetworkedList extends Component<NetworkedListProps, NetworkedListStates> {
@@ -81,8 +81,8 @@ class NetworkedList extends Component<NetworkedListProps, NetworkedListStates> {
                 <Text>{this.props.networkFailedMsg}</Text>
               </>
             ) : (
-                <Text>{this.props.listEmptyMsg}</Text>
-              )}
+              <Text>{this.props.listEmptyMsg}</Text>
+            )}
           </View>
         }
       />

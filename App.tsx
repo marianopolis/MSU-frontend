@@ -14,12 +14,15 @@ import FilesScreen from "./src/FilesScreen";
 import FormsScreen from "./src/FormsScreen";
 import EventsScreen from "./src/EventsScreen";
 
-const MemberCard = ({ imageuri, title, text }:
-  {
-    imageuri: string,
-    title: string,
-    text: string
-  }) => (
+const MemberCard = ({
+  imageuri,
+  title,
+  text,
+}: {
+  imageuri: string;
+  title: string;
+  text: string;
+}) => (
   <ListItem
     // style={{ margin: 5 }} doesn't exist
     leftAvatar={{ rounded: true, source: { uri: imageuri } }}
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const icons: {[key: string]: any} = {
+const icons: { [key: string]: any } = {
   Posts: {
     mod: MaterialIcon,
     name: "chat",
@@ -120,7 +123,9 @@ const TabNavigator = createBottomTabNavigator(
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { name, mod: Icon }: {name: string, mod: any} = icons[navigation.state.routeName];
+        const { name, mod: Icon }: { name: string; mod: any } = icons[
+          navigation.state.routeName
+        ];
         return <Icon name={name} color={tintColor} size={26} />;
       },
     }),

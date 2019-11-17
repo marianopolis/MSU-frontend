@@ -44,7 +44,7 @@ const CongressPlaceholder = () => (
       />
       <MemberCard
         title="Ying Ge"
-        imageuri="./static/photos/YG.jpg"
+        imageuri="./static/photos/YingG.jpg"
         text="Vice President"
       />
       <MemberCard
@@ -54,7 +54,7 @@ const CongressPlaceholder = () => (
       />
       <MemberCard
         title="Ying Chen"
-        imageuri="./static/photos/YC.jpg"
+        imageuri="./static/photos/YingC.jpg"
         text="Coordinator of Communications"
       />
       <MemberCard
@@ -71,6 +71,36 @@ const CongressPlaceholder = () => (
         title="Andrew Petrecca-Berthelet"
         imageuri="./static/photos/Andrew.jpg"
         text="Coordinator of Social Activities"
+      />
+      <MemberCard
+        title="Cherry Ying"
+        imageuri="./static/photos/Cherry.jpg"
+        text="Coordinator Volunteering & Activities"
+      />
+      <MemberCard
+        title="Misha Fotovati"
+        imageuri="./static/photos/Misha.jpg"
+        text="Coordinator of Internal Affairs"
+      />
+      <MemberCard
+        title="Zhaoran Wu"
+        imageuri="./static/photos/Zhaoran.jpg"
+        text="Coordinator of Cultural Affairs"
+      />
+      <MemberCard
+        title="Steven Gong"
+        imageuri="./static/photos/Steven.jpg"
+        text="Financial Assistant"
+      />
+      <MemberCard
+        title="Stephanie Wang"
+        imageuri="./static/photos/Stephanie.jpg"
+        text="Administrative Assistant"
+      />
+      <MemberCard
+        title="Laurence Liang"
+        imageuri="./static/photos/Laurence.jpg"
+        text="Coordinator of External Affairs"
       />
     </ScrollView>
   </View>

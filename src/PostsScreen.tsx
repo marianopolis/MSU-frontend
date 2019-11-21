@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { Card } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
 import moment from "moment";
 
+import PushNotification, {
+  PushNotification as Notif,
+} from "react-native-push-notification";
+
 import { getPosts } from "./api";
-import NetworkedList from "./NetworkedList.js";
+import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
   card: {

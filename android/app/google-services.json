@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "639017364983",
+    "firebase_url": "https://msuapp-ba4f5.firebaseio.com",
+    "project_id": "msuapp-ba4f5",
+    "storage_bucket": "msuapp-ba4f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639017364983:android:fd1c90e43220addc4552f2",
+        "android_client_info": {
+          "package_name": "com.msucongress.mariapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639017364983-ud6541efafhhq7sr3ngghotgc3smrbjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClkeCr_JNsIUJFRyKLU6S-4cOGJ1Pu0Ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639017364983-ud6541efafhhq7sr3ngghotgc3smrbjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -31,6 +31,9 @@ target 'msuapp' do
   # react-native-vector-icons
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  # firebase
+  pod 'Firebase/Messaging'
+
   target 'msuappTests' do
     inherit! :search_paths
     # Pods for testing

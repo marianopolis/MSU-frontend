@@ -2,10 +2,9 @@ import RNFetchBlob from "rn-fetch-blob";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const DIRS = RNFetchBlob.fs.dirs;
-const SERVER_URL = process.env.SERVER_URL;
 
-function route(endpoint: string) {
-  return `${SERVER_URL}/api/${endpoint}`;
+function route(endpoint: string): string {
+  return `${process.env.SERVER_URL}/api/${endpoint}`;
 }
 
 function getData(item: string): Promise<string> {
@@ -14,6 +13,12 @@ function getData(item: string): Promise<string> {
   })
     .then(r => r.json())
     .then(r => r.data);
+}
+
+export type NotifAction = null | "POST_ADDED";
+export interface NotifData {
+  action: NotifAction;
+  postID?: string;
 }
 
 export function getPosts(): Promise<string> {
@@ -76,9 +81,19 @@ export function downloadFile(
           path: path,
         })
           .fetch("GET", url)
-          .then((r: any) => {
+          .then(_ => {
             AsyncStorage.setItem(key, version);
             return path;
           }),
   );
+}
+
+export function registerPushToken(token: string, os: string): Promise<boolean> {
+  return fetch(route("push"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token, os }),
+  }).then(r => r.ok);
 }

@@ -3,7 +3,7 @@ import { StyleSheet, Text } from "react-native";
 import { Card } from "react-native-elements";
 
 import { getEvents } from "./api";
-import NetworkedList from "./NetworkedList.js";
+import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
   card: {

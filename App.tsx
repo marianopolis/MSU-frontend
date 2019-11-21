@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import { View, StyleSheet, ScrollView } from "react-native";
@@ -8,10 +8,14 @@ import {
   createAppContainer,
 } from "react-navigation";
 import { ListItem } from "react-native-elements";
+import PushNotification, {
+  PushNotification as Notif,
+} from "react-native-push-notification";
 
+import { registerPushToken, NotifData } from "./src/api";
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
-import FormsScreen from "./src/FormsScreen";
+/* import FormsScreen from "./src/FormsScreen"; */
 import EventsScreen from "./src/EventsScreen";
 
 const MemberCard = ({
@@ -24,13 +28,11 @@ const MemberCard = ({
   text: string;
 }) => (
   <ListItem
-    // style={{ margin: 5 }} doesn't exist
     leftAvatar={{ rounded: true, source: { uri: imageuri } }}
     title={title}
     titleStyle={{ color: "black", fontWeight: "bold" }}
     subtitleStyle={{ color: "black" }}
     subtitle={text}
-    // chevronColor="black" doesn't exist
   />
 );
 
@@ -152,7 +154,7 @@ const TabNavigator = createBottomTabNavigator(
       labelStyle: styles.label,
     },
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      tabBarIcon: ({ tintColor }) => {
         const { name, mod: Icon }: { name: string; mod: any } = icons[
           navigation.state.routeName
         ];
@@ -174,4 +176,31 @@ const RootNavigator = createStackNavigator(
   },
 );
 
-export default createAppContainer(RootNavigator);
+const AppContainer = createAppContainer(RootNavigator);
+
+const App = () => {
+  useEffect(() => {
+    PushNotification.configure({
+      popInitialNotification: true,
+      requestPermissions: true,
+      // Android only
+      senderID: "639017364983",
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      onRegister: ({ os, token }) => {
+        registerPushToken(token, os);
+      },
+      onNotification: ({ foreground, message, data }: Notif) => {
+        console.log(`${foreground} "${message}" -- ${data.postID}`);
+      },
+    });
+  }, []);
+
+  return <AppContainer />;
+};
+
+export default App;

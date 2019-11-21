@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { Card } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
+import moment from "moment";
 
 import { getPosts } from "./api";
 import NetworkedList from "./NetworkedList.js";
@@ -44,7 +45,9 @@ const Post = ({
 }) => (
   <Card containerStyle={styles.card}>
     <Markdown>{subject}</Markdown>
-    <Text style={styles.postTime}>{time}</Text>
+    <Text style={styles.postTime}>
+      {moment(time).format('ddd, MMM DD [at] LT ')}
+    </Text>
     <Markdown>{body}</Markdown>
   </Card>
 );

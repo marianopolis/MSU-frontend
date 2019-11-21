@@ -17,15 +17,33 @@ function getData(item: string): Promise<string> {
 }
 
 export function getPosts(): Promise<string> {
-  return getData("posts");
+  return getData("posts").then(r =>
+    r.map(x => ({
+      ...x,
+      inserted_at: new Date(x.inserted_at),
+      updated_at: new Date(x.updated_at),
+    })),
+  );
 }
 
 export function getFiles(): Promise<string> {
-  return getData("files");
+  return getData("files").then(r =>
+    r.map(x => ({
+      ...x,
+      inserted_at: new Date(x.inserted_at),
+      updated_at: new Date(x.updated_at),
+    })),
+  );
 }
 
 export function getEvents(): Promise<string> {
-  return getData("events");
+  return getData("events").then(r =>
+    r.map(x => ({
+      ...x,
+      start_time: new Date(x.start_time),
+      end_time: new Date(x.end_time),
+    })),
+  );
 }
 
 export function putForm(data: {

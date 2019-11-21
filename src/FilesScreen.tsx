@@ -11,6 +11,7 @@ import {
 
 import { Card } from "react-native-elements";
 import FileViewer from "react-native-file-viewer";
+import moment from "moment";
 
 import { getFiles, downloadFile } from "./api";
 import NetworkedList from "./NetworkedList.js";
@@ -68,7 +69,7 @@ const File = ({
     <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
       <Text style={styles.fileSubtitle}>
-        {filename} • {time}
+        {filename} • {moment(time).format('DD/MM/YY [at] LT')}
       </Text>
     </Card>
   </TouchableOpacity>
@@ -83,7 +84,7 @@ const FilesScreen = () => (
       <File
         desc={item.desc}
         filename={item.key}
-        time={item.inserted_at}
+        time={item.updated_at}
         url={item.url}
         version={item.version}
       />

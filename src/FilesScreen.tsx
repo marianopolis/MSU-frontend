@@ -14,7 +14,7 @@ import FileViewer from "react-native-file-viewer";
 import moment from "moment";
 
 import { getFiles, downloadFile } from "./api";
-import NetworkedList from "./NetworkedList.js";
+import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
   container: {

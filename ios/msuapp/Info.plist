@@ -42,7 +42,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>MaterialIcons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

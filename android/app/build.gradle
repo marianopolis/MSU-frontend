@@ -154,10 +154,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file("${System.getenv("KEYSTORE_FILE")}")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile file("${System.getenv("MSUAPP_UPLOAD_STORE_FILE")}")
+            storePassword System.getenv("MSUAPP_UPLOAD_STORE_PASSWORD")
+            keyAlias System.getenv("MSUAPP_UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("MSUAPP_UPLOAD_KEY_PASSWORD")
         }
     }
     buildTypes {

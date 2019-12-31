@@ -7,8 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "postversion": "npx react-native-version -r",
-    "genimages": "scripts/genimages.sh"
+    "postversion": "react-native-version -r",
+    "release:android": "cd android && ./gradlew bundleRelease && echo Built to android/app/build/outputs/bundle/release/app.aab",
+    "genimages": "yo rn-toolbox:assets --projectName msuapp --store --icon assets/icon.png --splash assets/splash.png"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.1",

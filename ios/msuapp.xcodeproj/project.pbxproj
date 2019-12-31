@@ -679,6 +679,7 @@
 			baseConfigurationReference = D17DEE5901DF5BFE63822529 /* Pods-msuapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 84P73U8BKX;
@@ -701,6 +702,7 @@
 			baseConfigurationReference = 36DB9B081C6C5FA3343B1833 /* Pods-msuapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 84P73U8BKX;
 				INFOPLIST_FILE = msuapp/Info.plist;

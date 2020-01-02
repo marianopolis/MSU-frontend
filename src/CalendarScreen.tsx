@@ -14,8 +14,15 @@ import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 export default class CalendarScreen extends Component {
   constructor(props) {
     super(props);
+
+    const serverAPI = "http://127.0.0.1:5000/api/calendar";
+
     this.state = {
-      items: {},
+      items: [
+        { date: "2019-01-16", name: "event" },
+        { date: "2019-01-19", name: "event" },
+        { date: "2019-02-04", name: "event" },
+      ],
     };
   }
 
@@ -32,12 +39,17 @@ export default class CalendarScreen extends Component {
     );
   }
 
+  componentDidMount(): void {
+    fetch(this.serverAPI)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result.data);
+        this.setState({ items: result.data });
+      });
+  }
+
   loadItems(day) {
-    const events = [
-      { date: "2019-01-16", name: "event" },
-      { date: "2019-01-19", name: "event" },
-      { date: "2019-02-04", name: "event" },
-    ];
+    const events = this.state.items;
     for (event of events) {
       console.log("NEW ELEMENT");
       let strTime = event["date"];

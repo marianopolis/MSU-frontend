@@ -15,9 +15,6 @@ export default class CalendarScreen extends Component {
   constructor(props) {
     super(props);
 
-    // const serverAPI = "https://dog.ceo/api/breeds/list/all";
-    const serverAPI = "https://google.com";
-
     this.state = {
       items: [
         { date: "2019-01-16", name: "event" },
@@ -28,7 +25,7 @@ export default class CalendarScreen extends Component {
   }
 
   componentDidMount() {
-    return fetch('https://raw.githubusercontent.com/marianopolis/msu-frontend/feature/calendar/static/test-calendar.json')
+    return fetch('TODO')
       .then(response => response.json())
       .then(responseJson => {
         this.setState(
@@ -37,8 +34,6 @@ export default class CalendarScreen extends Component {
           },
           function() {}
         );
-        // console.log("responseJson")
-        // console.log(responseJson);
         console.log("this.state.items")
         console.log(this.state.items);
       })
@@ -47,15 +42,6 @@ export default class CalendarScreen extends Component {
       });
   }
 
-  // componentDidMount() {
-  //   return fetch(this.serverAPI)
-  //     .then(res => {console.log(res); return res.json();})
-  //     .then(result => {
-  //       console.log("result.data")
-  //       console.log(result.data);
-  //       this.setState({ items: result.data });
-  //     }).catch(e => {console.log(`ASSTITTIES: ${JSON.stringify(e)}`);});
-  // }
 
   render() {
     return (
@@ -70,13 +56,18 @@ export default class CalendarScreen extends Component {
     );
   }
 
+  componentDidMount(): void {
+    fetch(this.serverAPI)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result.data);
+        this.setState({ items: result.data });
+      });
+  }
+
   loadItems(day) {
     const events = this.state.items;
-    // console.log("this.state.items")
-    // console.log(this.state.items);
-    // console.log(events)
     for (var i = 0; i < events.length; i++) {
-      // console.log(events[i])
       let strTime = events[i]["start"]["dateTime"].split("T")[0];
       if (!this.state.items[strTime]) {
         this.state.items[strTime] = [];
@@ -89,7 +80,6 @@ export default class CalendarScreen extends Component {
     Object.keys(this.state.items).forEach(key => {
       newItems[key] = this.state.items[key];
     });
-    // console.log(this.state);
     this.setState({
       items: newItems,
     });

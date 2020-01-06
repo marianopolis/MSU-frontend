@@ -83,6 +83,24 @@ And finally, install the requirements:
 $ brew install git node watchman cocoapods
 ```
 
+## Configuration
+
+In the root, create a file `.env` with the contents:
+
+```
+SERVER_URL="<url to backend server>"
+```
+
+This configuration can be accessed as such:
+
+```typescript
+import Config from 'react-native-config';
+Config.SERVER_URL // access value from .env
+```
+
+For more information, see the documentation on
+[react-native-config](https://github.com/luggit/react-native-config).
+
 ## Setup
 
 Once dependencies are installed and configured, clone the repo and
@@ -101,36 +119,13 @@ detected:
 $ adb devices
 ```
 
-Then, after configuring as described below, run:
+Then, after configuring as described above, run:
 
 ```
 $ npm start
 ```
 
 Finally, in another terminal run `npm run android` or `npm run ios`.
-
-## Configuration
-
-Some parameters, such as the server URL, are configured using
-environment variables. These variables are accessed in the code as
-`process.env.VARIABLE` and defined in `package.json` under the
-`"babel"` key. The variables are:
-
-* `SERVER_URL`: Full URL to the backend server.
-
-Thus, in the terminal where `npm start` is run, you would configure
-the variables as such:
-
-```
-export SERVER_URL='https://example.com'
-# ...
-```
-
-Or, on Windows:
-```
-set SERVER_URL=https://example.com
-# ...
-```
 
 ## Versioning
 

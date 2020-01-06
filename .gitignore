@@ -2,6 +2,7 @@
 *.png
 !/assets/*.png
 
+.env*
 build/
 
 # Android

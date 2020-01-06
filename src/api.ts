@@ -1,8 +1,9 @@
 import RNFetchBlob from "rn-fetch-blob";
 import AsyncStorage from "@react-native-community/async-storage";
+import Config from "react-native-config";
 
 const DIRS = RNFetchBlob.fs.dirs;
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = Config.SERVER_URL;
 
 function route(endpoint: string) {
   return `${SERVER_URL}/api/${endpoint}`;

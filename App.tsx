@@ -1,10 +1,11 @@
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { View, StyleSheet, ScrollView, Image } from "react-native";
+import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
 import { NavigationNativeContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListItem } from "react-native-elements";
+import Config from "react-native-config";
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
@@ -119,6 +120,15 @@ const styles = StyleSheet.create({
     height: 38,
     resizeMode: "contain",
   },
+  errorRoot: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorTitle: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 });
 
 const TabNav = createBottomTabNavigator();
@@ -160,9 +170,32 @@ const RootStackScreen = () => (
   </RootStack.Navigator>
 );
 
-const App = () => (
-  <NavigationNativeContainer>
-    <RootStackScreen />
-  </NavigationNativeContainer>
-);
+// List of environment variables that must be set in .env.
+// If they are not set, the App prints and displays an error.
+const CONFIG_VARS = ["SERVER_URL"];
+
+const App = () => {
+  // Ensure all env variables are set. If any is not, print missing variables.
+  if (!CONFIG_VARS.every(x => x in Config)) {
+    const missing = CONFIG_VARS.filter(x => !(x in Config));
+    console.error("Environment variables missing from .env:");
+    console.error(`${missing}`);
+    return (
+      <View style={styles.errorRoot}>
+        <Text style={styles.errorTitle}>
+          Environment variables are missing from .env:
+        </Text>
+        {missing.map(x => (
+          <Text>{x}</Text>
+        ))}
+      </View>
+    );
+  }
+
+  return (
+    <NavigationNativeContainer>
+      <RootStackScreen />
+    </NavigationNativeContainer>
+  );
+};
 export default App;

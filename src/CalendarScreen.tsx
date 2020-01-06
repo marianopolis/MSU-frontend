@@ -42,7 +42,6 @@ export default class CalendarScreen extends Component {
       });
   }
 
-
   render() {
     return (
       <Agenda
@@ -54,15 +53,6 @@ export default class CalendarScreen extends Component {
         rowHasChanged={this.rowHasChanged.bind(this)}
       />
     );
-  }
-
-  componentDidMount(): void {
-    fetch(this.serverAPI)
-      .then(res => res.json())
-      .then(result => {
-        console.log(result.data);
-        this.setState({ items: result.data });
-      });
   }
 
   loadItems(day) {

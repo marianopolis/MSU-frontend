@@ -5,7 +5,7 @@ import Markdown from "react-native-markdown-renderer";
 import moment from "moment";
 
 import { getPosts } from "./api";
-import NetworkedList from "./NetworkedList.js";
+import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
   card: {

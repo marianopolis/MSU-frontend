@@ -2,6 +2,7 @@
 *.png
 !/assets/*.png
 
+.env*
 build/
 
 # Android
@@ -10,10 +11,14 @@ local.properties
 android/app/src/main/res/*
 !android/app/src/main/res/values/colors.xml
 
-# node.js
+*.keystore
+!debug.keystore
+
+# js
 node_modules/
 npm-debug.log
 yarn-error.log
+*.jsbundle
 
 # fastlane
 */fastlane/report.xml

@@ -154,10 +154,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file("${System.getenv("KEYSTORE_FILE")}")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile file("${System.getenv("MSUAPP_UPLOAD_STORE_FILE")}")
+            storePassword System.getenv("MSUAPP_UPLOAD_STORE_PASSWORD")
+            keyAlias System.getenv("MSUAPP_UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("MSUAPP_UPLOAD_KEY_PASSWORD")
         }
     }
     buildTypes {
@@ -184,27 +184,22 @@ android {
 
         }
     }
-
-    packagingOptions {
-        pickFirst '**/armeabi-v7a/libc++_shared.so'
-        pickFirst '**/x86/libc++_shared.so'
-        pickFirst '**/arm64-v8a/libc++_shared.so'
-        pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    // react-native-screens
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 }
 
@@ -225,3 +220,6 @@ project.ext.vectoricons = [
     ]
 ]
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+// react-native-config
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

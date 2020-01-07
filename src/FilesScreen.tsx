@@ -42,34 +42,34 @@ const styles = StyleSheet.create({
   },
 });
 
-function download(url: string, key: string, version: string) {
-  downloadFile(url, key, version).then(path => {
-    FileViewer.open(`${path}`); // Hack for the error 'Argument of type 'String' is not assignable to parameter of type 'string'.'
-  });
+function download(url: string, key: string, server_update_time: Date) {
+  downloadFile(url, key, server_update_time).then(
+    (path: string | String | undefined) => {
+      FileViewer.open(`${path}`); // Hack for the error 'Argument of type 'String' is not assignable to parameter of type 'string'.'
+    },
+  );
 }
 
 const File = ({
   desc,
   filename,
-  version,
-  time,
+  server_update_time,
   url,
 }: {
   desc: string;
   filename: string;
-  version: string;
-  time: string;
+  server_update_time: Date;
   url: string;
 }) => (
   <TouchableOpacity
     onPress={() => {
-      download(url, filename, version);
+      download(url, filename, server_update_time);
     }}
   >
     <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
       <Text style={styles.fileSubtitle}>
-        {filename} • {moment(time).format('DD/MM/YY [at] LT')}
+        {filename} • {moment(server_update_time).format("DD/MM/YY [at] LT")}
       </Text>
     </Card>
   </TouchableOpacity>
@@ -78,15 +78,14 @@ const File = ({
 const FilesScreen = () => (
   <NetworkedList
     getData={() => getFiles()}
-    networkFailedMsg="Failed to retrive files"
+    networkFailedMsg="Failed to retrieve files"
     listEmptyMsg="No files"
     renderItem={({ item }) => (
       <File
         desc={item.desc}
         filename={item.key}
-        time={item.updated_at}
+        server_update_time={item.updated_at}
         url={item.url}
-        version={item.version}
       />
     )}
     keyExtractor={item => item.key}

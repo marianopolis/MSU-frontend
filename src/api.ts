@@ -17,6 +17,14 @@ function getData(item: string): Promise<string> {
     .then(r => r.data);
 }
 
+export function getCongressMembers(): Promise<string> {
+  return getData("congressmembers").then(r =>
+    r.map(x => ({
+      ...x,
+    })),
+  );
+}
+
 export function getPosts(): Promise<string> {
   return getData("posts").then(r =>
     r.map(x => ({
@@ -65,21 +73,27 @@ export function putForm(data: {
 export function downloadFile(
   url: string,
   key: string,
-  version: string,
-): Promise<String> {
+  server_update_time: Date,
+): Promise<string | undefined> {
   const path = `${DIRS.DocumentDir}/${key}`;
 
-  return AsyncStorage.getItem(key).then((val: any) =>
-    val === version
-      ? path
-      : RNFetchBlob.config({
-          fileCache: true,
-          path: path,
-        })
-          .fetch("GET", url)
-          .then((r: any) => {
-            AsyncStorage.setItem(key, version);
-            return path;
-          }),
-  );
+  return AsyncStorage.getItem(key).then((cache_update_time: string | null) => {
+    //Transform string taken from storage to date object so it can be compared
+    if (cache_update_time !== null) {
+      const cache_date_object = new Date(cache_update_time);
+
+      if (cache_date_object.getTime() == server_update_time.getTime()) {
+        return path;
+      }
+    }
+    RNFetchBlob.config({
+      fileCache: true,
+      path: path,
+    })
+      .fetch("GET", url)
+      .then((r: any) => {
+        AsyncStorage.setItem(key, server_update_time.toString());
+        return path;
+      });
+  });
 }

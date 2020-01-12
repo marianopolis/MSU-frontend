@@ -90,13 +90,9 @@ In the root, create a file `.env` with the contents:
 ```
 SERVER_URL="<url to backend server>"
 ```
-
+Devices on the local network can access the server using its local IP address 
 If running the Flask backend in parallel with the frontend, the backend URL is
 `http://<IP address>:5000` 
-
-The IP address can be accessed by the `ifconfig` command for Unix or with `ipconfig`
-for Windows. The IP address should look similar to `192.168.x.y` where `x` and `y` 
-are numbers.
 
 This configuration can be accessed as such:
 
@@ -162,8 +158,7 @@ Versions are managed using
 and follow [Semantic Versioning](https://semver.org/).
 
 Before publishing a new version of the app, make sure to update the
-version, minor for feature additions and patch (set if changes) 
-for bug fixes:
+version, minor for feature additions and patch for bug fixes:
 
 ```
 npm version [minor|patch]

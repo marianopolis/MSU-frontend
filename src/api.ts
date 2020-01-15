@@ -37,16 +37,6 @@ export function getFiles(): Promise<string> {
   );
 }
 
-export function getEvents(): Promise<string> {
-  return getData("events").then(r =>
-    r.map(x => ({
-      ...x,
-      start_time: new Date(x.start_time),
-      end_time: new Date(x.end_time),
-    })),
-  );
-}
-
 export function putForm(data: {
   name: string;
   private?: boolean;

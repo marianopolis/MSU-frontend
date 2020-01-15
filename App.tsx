@@ -10,7 +10,6 @@ import Config from "react-native-config";
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
 /* import FormsScreen from "./src/FormsScreen"; */
-import EventsScreen from "./src/EventsScreen";
 
 const MemberCard = ({
   imageuri,
@@ -108,7 +107,6 @@ const icons: { [key: string]: any } = {
   Posts: "chat",
   Files: "info",
   /* Form: "note", */
-  Events: "event",
   Congress: "people",
 };
 
@@ -146,7 +144,6 @@ const TabNavScreen = () => (
   >
     <TabNav.Screen name="Posts" component={PostsScreen} />
     <TabNav.Screen name="Files" component={FilesScreen} />
-    <TabNav.Screen name="Events" component={EventsScreen} />
     <TabNav.Screen name="Congress" component={CongressPlaceholder} />
   </TabNav.Navigator>
 );

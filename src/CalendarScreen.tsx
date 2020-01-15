@@ -11,29 +11,58 @@ import {
 
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
-export default class CalendarScreen extends Component {
-  constructor(props) {
+import { getCalendar } from "./api";
+
+interface Event {
+  text: string;
+  startTime: string,
+  endTime: string,
+}
+
+type Events = {[key: string]: Event[]};
+
+interface Props {}
+
+interface State {
+  items: Events;
+}
+
+export default class CalendarScreen extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      items: [
-        { date: "2019-01-16", name: "event" },
-        { date: "2019-01-19", name: "event" },
-        { date: "2019-02-04", name: "event" },
-      ],
+      items: {},
     };
   }
 
   componentDidMount() {
-    return fetch('TODO')
-      .then(response => response.json())
+    console.log(process.env.SERVER_URL);
+    // return fetch('https://msu-app-staging.herokuapp.com/api/calendar')
+    // return fetch(`${process.env.SERVER_URL}/api/calendar`)
+      // .then(response => response.json())
+     return getCalendar()
       .then(responseJson => {
-        this.setState(
-          {
-            items: responseJson.data,
-          },
-          function() {}
-        );
+        this.setState(() => {
+
+          let returnEvents: Events = {};
+          console.log("responseJson")
+          console.log(responseJson)
+
+          for (const event of responseJson) {
+            let strDate = event["start"]["dateTime"].split("T")[0];
+            let strTimeStart = this.removeSeconds(event["start"]["dateTime"].split("T")[1].split('-')[0]);
+            let strTimeEnd = this.removeSeconds(event["end"]["dateTime"].split("T")[1].split('-')[0]);
+            let name = event["summary"];
+
+            if (!returnEvents[strDate]) {
+              returnEvents[strDate] = [];
+            }
+
+            returnEvents[strDate].push({text: name, startTime: strTimeStart, endTime: strTimeEnd});
+          }
+          return {items: returnEvents};
+        })
         console.log("this.state.items")
         console.log(this.state.items);
       })
@@ -46,39 +75,20 @@ export default class CalendarScreen extends Component {
     return (
       <Agenda
         items={this.state.items}
-        loadItemsForMonth={this.loadItems.bind(this)}
-        selected={"2019-01-16"}
+        selected={"2020-01-14"}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={this.rowHasChanged.bind(this)}
+        rowHasChanged={(a: any, b: any) => a !== b}
+        onDayPress={this.onDayPress}
       />
     );
   }
 
-  loadItems(day) {
-    const events = this.state.items;
-    for (var i = 0; i < events.length; i++) {
-      let strTime = events[i]["start"]["dateTime"].split("T")[0];
-      if (!this.state.items[strTime]) {
-        this.state.items[strTime] = [];
-        this.state.items[strTime].push({
-          name: `${strTime} ${events[i]["summary"]}`,
-        });
-      }
-    }
-    const newItems = {};
-    Object.keys(this.state.items).forEach(key => {
-      newItems[key] = this.state.items[key];
-    });
-    this.setState({
-      items: newItems,
-    });
-  }
-
-  renderItem(item) {
+  renderItem(item: Event) {
     return (
-      <View style={[styles.item, { height: item.height }]}>
-        <Text>{item.name}</Text>
+      <View style={[styles.item]}>
+        <Text style={{fontWeight: 'bold'}}>{item.startTime} to {item.endTime}</Text>
+        <Text>{item.text}</Text>
       </View>
     );
   }
@@ -86,18 +96,21 @@ export default class CalendarScreen extends Component {
   renderEmptyDate() {
     return (
       <View style={styles.emptyDate}>
-        <Text>"Be water, my friend."</Text>
+        <Text>No events scheduled</Text>
       </View>
     );
   }
 
-  rowHasChanged(r1, r2) {
-    return r1.name !== r2.name;
+  removeSeconds(timeString: string): string {
+    let listOfTimeString = timeString.split(':');
+    let returnTimeString = listOfTimeString[0]+':'+listOfTimeString[1];
+    return returnTimeString
   }
 
-  timeToString(time) {
-    const date = new Date(time);
-    return date.toISOString().split("T")[0];
+  onDayPress = ({dateString}: any) => {
+    this.setState(state => ({
+      items: {[dateString]: [], ...state.items},
+    }));
   }
 }
 
@@ -114,5 +127,8 @@ const styles = StyleSheet.create({
     height: 15,
     flex: 1,
     paddingTop: 30,
-  }
+  },
+  knobContainer: {
+    backgroundColor: "blue",
+  },
 });

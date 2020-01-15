@@ -47,6 +47,10 @@ export function getEvents(): Promise<string> {
   );
 }
 
+export function getCalendar(): Promise<any> {
+  return getData("calendar");
+}
+
 export function putForm(data: {
   name: string;
   private?: boolean;

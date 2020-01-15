@@ -108,7 +108,7 @@ const icons: { [key: string]: any } = {
   Posts: "chat",
   Files: "info",
   /* Form: "note", */
-  Events: "event",
+  Calendar: "event",
   Congress: "people",
 };
 

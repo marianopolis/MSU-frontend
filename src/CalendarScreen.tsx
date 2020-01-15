@@ -37,10 +37,7 @@ export default class CalendarScreen extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log(process.env.SERVER_URL);
-    // return fetch('https://msu-app-staging.herokuapp.com/api/calendar')
-    // return fetch(`${process.env.SERVER_URL}/api/calendar`)
-      // .then(response => response.json())
+    
      return getCalendar()
       .then(responseJson => {
         this.setState(() => {

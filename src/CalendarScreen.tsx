@@ -9,106 +9,102 @@ import {
   View,
 } from "react-native";
 
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Agenda, DateObject } from "react-native-calendars";
+import moment, { Moment } from "moment";
 
 import { getCalendar } from "./api";
 
 interface Event {
-  text: string;
-  startTime: string,
-  endTime: string,
+  id: string;
+  summary: string;
+  start: Date;
+  end: Date;
 }
 
-type Events = {[key: string]: Event[]};
+type Events = { [key: string]: Event[] };
 
 interface Props {}
 
 interface State {
   items: Events;
+  minDate: string | undefined;
+  maxDate: string | undefined;
 }
 
-export default class CalendarScreen extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+const getDate = (d: Date | Moment) => moment(d).format("YYYY-MM-DD");
+const getTime = (d: Date | Moment) => moment(d).format("LT");
 
-    this.state = {
-      items: {},
-    };
+const emptyEvents = (
+  from: Date | Moment,
+  to: Date | Moment,
+): { [k: string]: [] } => {
+  const r: { [k: string]: [] } = {};
+
+  const start = moment(from).startOf("day");
+  const len = moment(to).diff(start, "days");
+
+  for (let i = 0; i < len; ++i) {
+    r[start.format("YYYY-MM-DD")] = [];
+    start.add(1, "d"); // mutates in place
   }
+  return r;
+};
+
+export default class CalendarScreen extends Component<Props, State> {
+  state: State = {
+    minDate: undefined,
+    maxDate: undefined,
+    items: {},
+  };
 
   componentDidMount() {
-    
-     return getCalendar()
-      .then(responseJson => {
-        this.setState(() => {
+    return getCalendar().then(data => {
+      const minDate = moment();
+      const maxDate = moment(minDate).add(3, "months");
+      const items: Events = emptyEvents(minDate, maxDate);
 
-          let returnEvents: Events = {};
-          console.log("responseJson")
-          console.log(responseJson)
+      for (const event of data) {
+        const key = getDate(event.start);
+        if (key in items) items[key].push(event);
+      }
 
-          for (const event of responseJson) {
-            let strDate = event["start"]["dateTime"].split("T")[0];
-            let strTimeStart = this.removeSeconds(event["start"]["dateTime"].split("T")[1].split('-')[0]);
-            let strTimeEnd = this.removeSeconds(event["end"]["dateTime"].split("T")[1].split('-')[0]);
-            let name = event["summary"];
-
-            if (!returnEvents[strDate]) {
-              returnEvents[strDate] = [];
-            }
-
-            returnEvents[strDate].push({text: name, startTime: strTimeStart, endTime: strTimeEnd});
-          }
-          return {items: returnEvents};
-        })
-        console.log("this.state.items")
-        console.log(this.state.items);
-      })
-      .catch(error => {
-        console.error(error);
+      this.setState({
+        minDate: getDate(minDate),
+        maxDate: getDate(maxDate),
+        items,
       });
+    });
   }
 
   render() {
     return (
       <Agenda
         items={this.state.items}
-        selected={"2020-01-14"}
-        renderItem={this.renderItem.bind(this)}
-        renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={(a: any, b: any) => a !== b}
-        onDayPress={this.onDayPress}
+        minDate={this.state.minDate}
+        maxDate={this.state.maxDate}
+        pastScrollRange={1}
+        futureScrollRange={2}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+        rowHasChanged={(a: Event, b: Event) => a.id !== b.id}
       />
     );
   }
 
-  renderItem(item: Event) {
-    return (
-      <View style={[styles.item]}>
-        <Text style={{fontWeight: 'bold'}}>{item.startTime} to {item.endTime}</Text>
-        <Text>{item.text}</Text>
-      </View>
-    );
-  }
+  renderItem = ({ id, start, end, summary }: Event) => (
+    <View id={id} style={styles.item}>
+      <Text style={styles.dateTitle}>
+        {getTime(start)} to {getTime(end)}
+      </Text>
+      <Text>{summary}</Text>
+    </View>
+  );
 
-  renderEmptyDate() {
-    return (
-      <View style={styles.emptyDate}>
-        <Text>No events scheduled</Text>
-      </View>
-    );
-  }
-
-  removeSeconds(timeString: string): string {
-    let listOfTimeString = timeString.split(':');
-    let returnTimeString = listOfTimeString[0]+':'+listOfTimeString[1];
-    return returnTimeString
-  }
-
-  onDayPress = ({dateString}: any) => {
-    this.setState(state => ({
-      items: {[dateString]: [], ...state.items},
-    }));
-  }
+  renderEmptyDate = () => (
+    <View style={styles.emptyDate}>
+      <Text>No events scheduled</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -124,6 +120,9 @@ const styles = StyleSheet.create({
     height: 15,
     flex: 1,
     paddingTop: 30,
+  },
+  dateTitle: {
+    fontWeight: "bold",
   },
   knobContainer: {
     backgroundColor: "blue",

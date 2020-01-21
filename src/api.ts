@@ -45,14 +45,15 @@ export function getFiles(): Promise<string> {
   );
 }
 
-export function getEvents(): Promise<string> {
-  return getData("events").then(r =>
-    r.map(x => ({
-      ...x,
-      start_time: new Date(x.start_time),
-      end_time: new Date(x.end_time),
-    })),
-  );
+/** Events in Google Calendar format.
+ */
+export function getCalendar(): Promise<any> {
+  return getData("calendar")
+    .then(data => data.map(event => ({
+      ...event,
+      start: new Date(event.start.dateTime),
+      end: new Date(event.end.dateTime),
+    })));
 }
 
 export function putForm(data: {

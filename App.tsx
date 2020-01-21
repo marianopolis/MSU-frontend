@@ -12,6 +12,8 @@ import FilesScreen from "./src/FilesScreen";
 /* import FormsScreen from "./src/FormsScreen"; */
 import EventsScreen from "./src/EventsScreen";
 import CongressMembersScreen from "./src/CongressMembersScreen"
+import CalendarScreen from "./src/CalendarScreen";
+
 
 const MemberCard = ({
   imageuri,
@@ -37,7 +39,7 @@ const icons: { [key: string]: any } = {
   Posts: "chat",
   Files: "info",
   /* Form: "note", */
-  Events: "event",
+  Calendar: "event",
   Congress: "people",
 };
 
@@ -75,8 +77,8 @@ const TabNavScreen = () => (
   >
     <TabNav.Screen name="Posts" component={PostsScreen} />
     <TabNav.Screen name="Files" component={FilesScreen} />
-    <TabNav.Screen name="Events" component={EventsScreen} />
-    <TabNav.Screen name="Congress" component={CongressMembersScreen} />
+    <TabNav.Screen name="Calendar" component={CalendarScreen} />
+    <TabNav.Screen name="Congress" component={CongressPlaceholder} />
   </TabNav.Navigator>
 );
 

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type NetworkedListProps = {
-  getData: () => Promise<string>;
+  getData: () => Promise<any[]>;
   networkFailedMsg: string;
   listEmptyMsg: string;
   renderItem: (item: any) => any;

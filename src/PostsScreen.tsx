@@ -46,7 +46,7 @@ const Post = ({
   <Card containerStyle={styles.card}>
     <Markdown>{subject}</Markdown>
     <Text style={styles.postTime}>
-      {moment(time).format('ddd, MMM DD [at] LT ')}
+      {moment(time).format("ddd, MMM DD [at] LT ")}
     </Text>
     <Markdown>{body}</Markdown>
   </Card>

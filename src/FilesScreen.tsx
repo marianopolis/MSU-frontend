@@ -7,13 +7,14 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Linking,
 } from "react-native";
 
 import { Card } from "react-native-elements";
 import FileViewer from "react-native-file-viewer";
 import moment from "moment";
 
-import { getFiles, downloadFile } from "./api";
+import { getResources, downloadFile } from "./api";
 import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
@@ -56,20 +57,24 @@ const File = ({
   url,
 }: {
   desc: string;
-  filename: string;
-  version: string;
+  filename?: string;
+  version?: string;
   time: string;
   url: string;
 }) => (
   <TouchableOpacity
     onPress={() => {
-      download(url, filename, version);
+      filename
+        ? download(url, filename, version as string)
+        : Linking.openURL(url);
     }}
   >
     <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
-      <Text style={styles.fileSubtitle}>
-        {filename} • {moment(time).format('DD/MM/YY [at] LT')}
+      <Text style={styles.fileSubtitle} numberOfLines={2}>
+        {filename
+          ? `${filename} • ${moment(time).format("DD/MM/YY")}`
+          : url}
       </Text>
     </Card>
   </TouchableOpacity>
@@ -77,11 +82,12 @@ const File = ({
 
 const FilesScreen = () => (
   <NetworkedList
-    getData={() => getFiles()}
+    getData={() => getResources()}
     networkFailedMsg="Failed to retrive files"
     listEmptyMsg="No files"
-    renderItem={({ item }) => (
+    renderItem={({ item, index }) => (
       <File
+        key={index}
         desc={item.desc}
         filename={item.key}
         time={item.updated_at}
@@ -89,7 +95,6 @@ const FilesScreen = () => (
         version={item.version}
       />
     )}
-    keyExtractor={item => item.key}
   />
 );
 

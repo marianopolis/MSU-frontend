@@ -9,93 +9,93 @@ import Config from "react-native-config";
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
-/* import FormsScreen from "./src/FormsScreen"; */
-import CalendarScreen from "./src/CalendarScreen";
+// import FormsScreen from "./src/FormsScreen";
+// import CalendarScreen from "./src/CalendarScreen";
 
 const MemberCard = ({
-  imageuri,
+  source,
   title,
   text,
 }: {
-  imageuri: string;
+  source: string;
   title: string;
   text: string;
 }) => (
   <ListItem
-    leftAvatar={{ rounded: true, source: { uri: imageuri } }}
+    leftAvatar={{ rounded: true, source: source }}
     title={title}
     titleStyle={{ color: "black", fontWeight: "bold" }}
     subtitleStyle={{ color: "black" }}
     subtitle={text}
   />
 );
-
+ 
 const CongressPlaceholder = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
     <ScrollView>
       <MemberCard
         title="Aria Khiabani"
-        imageuri="./static/photos/Aria.jpg"
+        source={require("./assets/photos/Aria.jpg")}
         text="President"
       />
       <MemberCard
         title="Ying Ge"
-        imageuri="./static/photos/YingG.jpg"
+        source={require("./assets/photos/YingG.jpg")}
         text="Vice President"
       />
       <MemberCard
         title="Amanda Morrone"
-        imageuri="./static/photos/Amanda.jpg"
+        source={require("./assets/photos/Amanda.jpg")}
         text="Vice President of Finance"
       />
       <MemberCard
         title="Ying Chen"
-        imageuri="./static/photos/YingC.jpg"
+        source={require("./assets/photos/YingC.jpg")}
         text="Coordinator of Communications"
       />
       <MemberCard
         title="Michael Chalkhoun"
-        imageuri="./static/photos/Michael.jpg"
+        source={require("./assets/photos/Michael.jpg")}
         text="Coordinator of Student Advocacy"
       />
       <MemberCard
         title="Darya Jabbari"
-        imageuri="./static/photos/Darya.jpg"
+        source={require("./assets/photos/Darya.jpg")}
         text="Coordinator of Social Justice"
       />
       <MemberCard
         title="Andrew Petrecca-Berthelet"
-        imageuri="./static/photos/Andrew.jpg"
+        source={require("./assets/photos/Andrew.jpg")}
         text="Coordinator of Social Activities"
       />
       <MemberCard
         title="Cherry Ying"
-        imageuri="./static/photos/Cherry.jpg"
+        source={require("./assets/photos/Cherry.jpg")}
         text="Coordinator Volunteering & Activities"
       />
       <MemberCard
         title="Misha Fotovati"
-        imageuri="./static/photos/Misha.jpg"
+        source={require("./assets/photos/Misha.jpg")}
         text="Coordinator of Internal Affairs"
       />
       <MemberCard
         title="Zhaoran Wu"
-        imageuri="./static/photos/Zhaoran.jpg"
+        source={require("./assets/photos/Zhaoran.jpg")}
         text="Coordinator of Cultural Affairs"
       />
       <MemberCard
         title="Steven Gong"
-        imageuri="./static/photos/Steven.jpg"
+        source={require("./assets/photos/Steven.jpg")}
         text="Financial Assistant"
       />
       <MemberCard
         title="Stephanie Wang"
-        imageuri="./static/photos/Stephanie.jpg"
+        source={require("./assets/photos/Stephanie.jpg")}
         text="Administrative Assistant"
       />
       <MemberCard
         title="Laurence Liang"
-        imageuri="./static/photos/Laurence.jpg"
+        source={require("./assets/photos/Laurence.jpg")}
         text="Coordinator of External Affairs"
       />
     </ScrollView>
@@ -106,8 +106,8 @@ const MSU_LOGO = require("./assets/logo-white.png");
 
 const icons: { [key: string]: any } = {
   Posts: "chat",
-  Files: "info",
-  /* Form: "note", */
+  Resources: "info",
+  Forms: "note",
   Calendar: "event",
   Congress: "people",
 };
@@ -145,8 +145,9 @@ const TabNavScreen = () => (
     })}
   >
     <TabNav.Screen name="Posts" component={PostsScreen} />
-    <TabNav.Screen name="Files" component={FilesScreen} />
-    <TabNav.Screen name="Calendar" component={CalendarScreen} />
+    <TabNav.Screen name="Resources" component={FilesScreen} />
+    {/* <TabNav.Screen name="Forms" component={FormsScreen} /> */}
+    {/* <TabNav.Screen name="Calendar" component={CalendarScreen} /> */}
     <TabNav.Screen name="Congress" component={CongressPlaceholder} />
   </TabNav.Navigator>
 );

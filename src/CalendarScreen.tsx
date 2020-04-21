@@ -14,9 +14,11 @@ import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import { getCalendar } from "./api";
 
 interface Event {
-  text: string;
-  startTime: string,
-  endTime: string,
+  id: string;
+  summary: string;
+  location: string;
+  start: Date;
+  end: Date;
 }
 
 type Events = {[key: string]: Event[]};
@@ -81,34 +83,25 @@ export default class CalendarScreen extends Component<Props, State> {
     );
   }
 
-  renderItem(item: Event) {
-    return (
-      <View style={[styles.item]}>
-        <Text style={{fontWeight: 'bold'}}>{item.startTime} to {item.endTime}</Text>
-        <Text>{item.text}</Text>
-      </View>
-    );
-  }
+  renderItem = ({ id, start, end, summary, location }: Event) => (
+    <View id={id} style={styles.item}>
+      <Text style={styles.eventName}>{summary}</Text>
+      <Text style={styles.dateTitle}>
+        {getTime(start)} to {getTime(end)}
+      </Text>
+      { location &&      
+        <Text style={styles.locationText}>{location}</Text>
+      }
+    </View>
+  );
 
-  renderEmptyDate() {
-    return (
-      <View style={styles.emptyDate}>
-        <Text>No events scheduled</Text>
-      </View>
-    );
-  }
-
-  removeSeconds(timeString: string): string {
-    let listOfTimeString = timeString.split(':');
-    let returnTimeString = listOfTimeString[0]+':'+listOfTimeString[1];
-    return returnTimeString
-  }
-
-  onDayPress = ({dateString}: any) => {
-    this.setState(state => ({
-      items: {[dateString]: [], ...state.items},
-    }));
-  }
+  renderEmptyDate = () => (
+    <View style={styles.emptyDate}>
+      <Text style={styles.emptyDateText}>
+        No events scheduled
+      </Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -124,6 +117,22 @@ const styles = StyleSheet.create({
     height: 15,
     flex: 1,
     paddingTop: 30,
+  },
+  dateTitle: {
+    fontWeight: 'normal',
+  },
+  eventName:{
+    color: 'black',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    fontSize: 20,
+    lineHeight: 20,
+  },
+  locationText: {
+    color: 'gray',
+  },
+  emptyDateText:{
+      color: 'rgb(171, 171, 171)',
   },
   knobContainer: {
     backgroundColor: "blue",

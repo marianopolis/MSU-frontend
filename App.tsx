@@ -1,7 +1,7 @@
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
-import { NavigationNativeContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListItem } from "react-native-elements";
@@ -9,7 +9,7 @@ import Config from "react-native-config";
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
-import EventsScreen from "./src/EventsScreen";
+// import FormsScreen from "./src/FormsScreen";
 import CalendarScreen from "./src/CalendarScreen";
 
 const MemberCard = ({
@@ -193,9 +193,9 @@ const App = () => {
   }
 
   return (
-    <NavigationNativeContainer>
+    <NavigationContainer>
       <RootStackScreen />
-    </NavigationNativeContainer>
+    </NavigationContainer>
   );
 };
 export default App;

@@ -1,7 +1,7 @@
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
-import { NavigationNativeContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListItem } from "react-native-elements";
@@ -10,7 +10,7 @@ import Config from "react-native-config";
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
 // import FormsScreen from "./src/FormsScreen";
-// import CalendarScreen from "./src/CalendarScreen";
+import CalendarScreen from "./src/CalendarScreen";
 
 const MemberCard = ({
   source,
@@ -147,7 +147,7 @@ const TabNavScreen = () => (
     <TabNav.Screen name="Posts" component={PostsScreen} />
     <TabNav.Screen name="Resources" component={FilesScreen} />
     {/* <TabNav.Screen name="Forms" component={FormsScreen} /> */}
-    {/* <TabNav.Screen name="Calendar" component={CalendarScreen} /> */}
+    <TabNav.Screen name="Calendar" component={CalendarScreen} />
     <TabNav.Screen name="Congress" component={CongressPlaceholder} />
   </TabNav.Navigator>
 );
@@ -194,9 +194,9 @@ const App = () => {
   }
 
   return (
-    <NavigationNativeContainer>
+    <NavigationContainer>
       <RootStackScreen />
-    </NavigationNativeContainer>
+    </NavigationContainer>
   );
 };
 export default App;

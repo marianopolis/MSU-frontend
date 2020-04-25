@@ -17,6 +17,7 @@ import { getCalendar } from "./api";
 interface Event {
   id: string;
   summary: string;
+  location: string;
   start: Date;
   end: Date;
 }
@@ -91,18 +92,23 @@ export default class CalendarScreen extends Component<Props, State> {
     );
   }
 
-  renderItem = ({ id, start, end, summary }: Event) => (
+  renderItem = ({ id, start, end, summary, location }: Event) => (
     <View id={id} style={styles.item}>
+      <Text style={styles.eventName}>{summary}</Text>
       <Text style={styles.dateTitle}>
         {getTime(start)} to {getTime(end)}
       </Text>
-      <Text>{summary}</Text>
+      { location &&      
+        <Text style={styles.locationText}>{location}</Text>
+      }
     </View>
   );
 
   renderEmptyDate = () => (
     <View style={styles.emptyDate}>
-      <Text>No events scheduled</Text>
+      <Text style={styles.emptyDateText}>
+        No events scheduled
+      </Text>
     </View>
   );
 }
@@ -122,7 +128,20 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   dateTitle: {
-    fontWeight: "bold",
+    fontWeight: 'normal',
+  },
+  eventName:{
+    color: 'black',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    fontSize: 20,
+    lineHeight: 20,
+  },
+  locationText: {
+    color: 'gray',
+  },
+  emptyDateText:{
+      color: 'rgb(171, 171, 171)',
   },
   knobContainer: {
     backgroundColor: "blue",

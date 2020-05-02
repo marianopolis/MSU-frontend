@@ -135,8 +135,8 @@ android {
         applicationId "com.msucongress.mariapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20001004
-        versionName "2.2.0"
+        versionCode 20001005
+        versionName "2.2.1"
     }
     splits {
         abi {

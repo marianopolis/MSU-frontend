@@ -69,9 +69,9 @@ const CongressPlaceholder = () => (
         text="Coordinator of Social Activities"
       />
       <MemberCard
-        title="Cherry Ying"
+        title="Cherry Sun"
         source={require("./assets/photos/Cherry.jpg")}
-        text="Coordinator Volunteering & Activities"
+        text="Coordinator of Volunteering & Charities"
       />
       <MemberCard
         title="Misha Fotovati"

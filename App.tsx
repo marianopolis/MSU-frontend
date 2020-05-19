@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListItem } from "react-native-elements";
 import Config from "react-native-config";
+import SplashScreen from 'react-native-splash-screen';
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
@@ -192,6 +193,10 @@ const App = () => {
       </View>
     );
   }
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <NavigationContainer>

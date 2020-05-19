@@ -9,7 +9,9 @@
     "test": "jest",
     "postversion": "react-native-version -r",
     "release:android": "cd android && ./gradlew bundleRelease && echo Built to android/app/build/outputs/bundle/release/app.aab",
-    "genimages": "yo rn-toolbox:assets --projectName msuapp --store --icon assets/icon.png --splash assets/splash.png"
+    "images:icon": "react-native set-icon --path assets/icon.png",
+    "images:splash": "react-native set-splash --path assets/splash.png --background '#1c2469'",
+    "images": "npm run images:icon && npm run images:splash"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
@@ -30,12 +32,14 @@
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.6.4",
     "react-native-screens": "^2.5.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-vector-icons": "^6.6.0",
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "@bam.tech/react-native-make": "^3.0.0",
     "@react-native-community/eslint-config": "^0.0.5",
     "@types/node": "^13.13.1",
     "@types/react": "^16.9.34",
@@ -45,15 +49,13 @@
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^24.9.0",
     "eslint": "^6.8.0",
-    "generator-rn-toolbox": "^3.14.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.4",
     "react-native-typescript-transformer": "^1.2.13",
     "react-native-version": "^3.2.0",
     "react-test-renderer": "16.9.0",
     "tslib": "^1.11.1",
-    "typescript": "^3.8.3",
-    "yo": "^3.1.1"
+    "typescript": "^3.8.3"
   },
   "jest": {
     "preset": "react-native"

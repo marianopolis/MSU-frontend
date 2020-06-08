@@ -1,11 +1,7 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Alert,
-  Button,
-  Platform,
   Text,
   StyleSheet,
-  ScrollView,
   View,
 } from "react-native";
 
@@ -14,104 +10,73 @@ import moment, { Moment } from "moment";
 
 import { getCalendar } from "./api";
 
-interface Event {
-  id: string;
-  summary: string;
-  location: string;
-  start: Date;
-  end: Date;
-}
+const getDate = d => moment(d).format("YYYY-MM-DD");
+const getTime = d => moment(d).format("LT");
 
-type Events = { [key: string]: Event[] };
-
-interface Props {}
-
-interface State {
-  items: Events;
-  minDate: string | undefined;
-  maxDate: string | undefined;
-}
-
-const getDate = (d: Date | Moment) => moment(d).format("YYYY-MM-DD");
-const getTime = (d: Date | Moment) => moment(d).format("LT");
-
-const emptyEvents = (
-  from: Date | Moment,
-  to: Date | Moment,
-): { [k: string]: [] } => {
-  const r: { [k: string]: [] } = {};
+const emptyEvents = (from, to) => {
+  const r = {};
 
   const start = moment(from).startOf("day");
   const len = moment(to).diff(start, "days");
 
   for (let i = 0; i < len; ++i) {
-    r[start.format("YYYY-MM-DD")] = [];
+    r[getDate(start)] = [];
     start.add(1, "d"); // mutates in place
   }
   return r;
 };
 
-export default class CalendarScreen extends Component<Props, State> {
-  state: State = {
-    minDate: undefined,
-    maxDate: undefined,
-    items: {},
-  };
+const EmptyDate = () => (
+  <View style={styles.emptyDate}>
+    <Text style={styles.emptyDateText}>No events scheduled</Text>
+  </View>
+);
 
-  componentDidMount() {
-    return getCalendar().then(data => {
-      const minDate = moment();
-      const maxDate = moment(minDate).add(3, "months");
-      const items: Events = emptyEvents(minDate, maxDate);
+const Item = ({ id, start, end, summary, location }) => (
+  <View id={id} style={styles.item}>
+    <Text style={styles.eventName}>{summary}</Text>
+    <Text style={styles.dateTitle}>
+      {getTime(start)} to {getTime(end)}
+    </Text>
+    {location && <Text style={styles.locationText}>{location}</Text>}
+  </View>
+);
+
+const CalendarScreen = () => {
+  let [minDate, setMinDate] = useState();
+  let [maxDate, setMaxDate] = useState();
+  let [items, setItems] = useState({});
+
+  useEffect(() => {
+    getCalendar().then(data => {
+      const today = moment();
+      const end = moment(today).add(3, "months");
+      const events = emptyEvents(today, end);
 
       for (const event of data) {
         const key = getDate(event.start);
         if (key in items) items[key].push(event);
       }
 
-      this.setState({
-        minDate: getDate(minDate),
-        maxDate: getDate(maxDate),
-        items,
-      });
+      setMinDate(getDate(today));
+      setMaxDate(getDate(end));
+      setItems(events);
     });
-  }
+  }, []);
 
-  render() {
-    return (
-      <Agenda
-        items={this.state.items}
-        minDate={this.state.minDate}
-        maxDate={this.state.maxDate}
-        pastScrollRange={1}
-        futureScrollRange={2}
-        renderItem={this.renderItem}
-        renderEmptyDate={this.renderEmptyDate}
-        rowHasChanged={(a: Event, b: Event) => a.id !== b.id}
-      />
-    );
-  }
-
-  renderItem = ({ id, start, end, summary, location }: Event) => (
-    <View id={id} style={styles.item}>
-      <Text style={styles.eventName}>{summary}</Text>
-      <Text style={styles.dateTitle}>
-        {getTime(start)} to {getTime(end)}
-      </Text>
-      { location &&      
-        <Text style={styles.locationText}>{location}</Text>
-      }
-    </View>
+  return (
+    <Agenda
+      items={items}
+      minDate={minDate}
+      maxDate={maxDate}
+      pastScrollRange={1}
+      futureScrollRange={2}
+      renderItem={Item}
+      renderEmptyDate={EmptyDate}
+      rowHasChanged={(a, b) => a.id !== b.id}
+    />
   );
-
-  renderEmptyDate = () => (
-    <View style={styles.emptyDate}>
-      <Text style={styles.emptyDateText}>
-        No events scheduled
-      </Text>
-    </View>
-  );
-}
+};
 
 const styles = StyleSheet.create({
   item: {
@@ -128,22 +93,24 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   dateTitle: {
-    fontWeight: 'normal',
+    fontWeight: "normal",
   },
-  eventName:{
-    color: 'black',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+  eventName: {
+    color: "black",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
     fontSize: 20,
     lineHeight: 20,
   },
   locationText: {
-    color: 'gray',
+    color: "gray",
   },
-  emptyDateText:{
-      color: 'rgb(171, 171, 171)',
+  emptyDateText: {
+    color: "rgb(171, 171, 171)",
   },
   knobContainer: {
     backgroundColor: "blue",
   },
 });
+
+export default CalendarScreen;

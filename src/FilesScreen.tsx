@@ -71,7 +71,6 @@ const File = ({
 const FilesScreen = () => (
   <NetworkedList
     getData={() => getResources()}
-    networkFailedMsg="Failed to retrieve files"
     listEmptyMsg="No files"
     renderItem={({ item, index }) => (
       <File

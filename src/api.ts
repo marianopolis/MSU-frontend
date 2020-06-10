@@ -12,7 +12,23 @@ function route(endpoint: string) {
 function getData(item: string): Promise<any[]> {
   return fetch(route(item), { method: "GET" })
     .then(r => r.json())
-    .then(r => r.data);
+    .then(r => {
+      // Cache the data.
+      AsyncStorage.setItem(item, JSON.stringify(r.data));
+      return r.data;
+    })
+    .catch(e => {
+      // Looks like the request failed.
+      // Look at the cache, and if it's empty then just
+      // return the error. Otherwise, return data from cache
+      return AsyncStorage.getItem(item).then(v => {
+        if (v !== null) {
+          return JSON.parse(v);
+        } else {
+          throw e;
+        }
+      });
+    });
 }
 
 export function getPosts(): Promise<any[]> {

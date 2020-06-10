@@ -55,7 +55,6 @@ const Post = ({
 const PostsScreen = () => (
   <NetworkedList
     getData={() => getPosts()}
-    networkFailedMsg="Failed to retrieve posts"
     listEmptyMsg="No posts"
     renderItem={({ item }) => (
       <Post subject={item.subject} body={item.body} time={item.inserted_at} />

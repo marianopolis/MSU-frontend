@@ -37,7 +37,6 @@ const CongressScreen = () => {
   return (
     <NetworkedList
       getData={getCongress}
-      networkFailedMsg="Failed to retrieve congress member list"
       renderItem={({ item }) => (
         <MemberCard name={item.name} title={item.title} url={item.url} />
       )}

@@ -19,13 +19,11 @@ const styles = StyleSheet.create({
 
 const NetworkedList = ({
   getData,
-  networkFailedMsg,
   listEmptyMsg,
   renderItem,
   keyExtractor,
 }: {
   getData: () => Promise<any[]>;
-  networkFailedMsg: string;
   listEmptyMsg?: string;
   renderItem: (item: any) => any;
   keyExtractor: (item: any) => string;
@@ -75,7 +73,7 @@ const NetworkedList = ({
             {failed ? (
               <>
                 <MaterialIcon name="cloud-off" size={40} />
-                <Text>{networkFailedMsg}</Text>
+                <Text>Offline</Text>
               </>
             ) : (
               <Text>{listEmptyMsg}</Text>

@@ -10,9 +10,7 @@ function route(endpoint: string) {
 }
 
 function getData(item: string): Promise<any[]> {
-  return fetch(route(item), {
-    method: "GET",
-  })
+  return fetch(route(item), { method: "GET" })
     .then(r => r.json())
     .then(r => r.data);
 }
@@ -59,6 +57,10 @@ export function getCalendar(): Promise<any> {
   );
 }
 
+export function getCongress() {
+  return getData("congress");
+}
+
 export function putForm(data: {
   name: string;
   private?: boolean;
@@ -74,41 +76,13 @@ export function putForm(data: {
   });
 }
 
-function apiDownload(
-  url: string,
-  key: string,
-  version: string,
-  namespace: "image" | "file",
-): Promise<string> {
-  const path = `${DIRS.DocumentDir}/${namespace}_${key}`;
+export async function download(url: string, key: string): Promise<string> {
+  const path = `${DIRS.DocumentDir}/${key}`;
+  const exists = await RNFetchBlob.fs.exists(path);
 
-  return AsyncStorage.getItem(key).then((val: any) =>
-    val === version
-      ? path
-      : RNFetchBlob.config({
-          fileCache: true,
-          path: path,
-        })
-          .fetch("GET", url)
-          .then((_r: any) => {
-            AsyncStorage.setItem(key, version);
-            return path;
-          }),
-  );
-}
+  if (!exists) {
+    await RNFetchBlob.config({ fileCache: true, path: path }).fetch("GET", url);
+  }
 
-export function downloadFile(
-  url: string,
-  key: string,
-  version: string,
-): Promise<string> {
-  return apiDownload(url, key, version, "file");
-}
-
-export function downloadImage(
-  url: string,
-  key: string,
-  version: string,
-): Promise<string> {
-  return apiDownload(url, key, version, "image");
+  return path;
 }

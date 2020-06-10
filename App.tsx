@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { ListItem } from "react-native-elements";
 import Config from "react-native-config";
 import SplashScreen from 'react-native-splash-screen';
 
@@ -12,96 +11,7 @@ import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
 // import FormsScreen from "./src/FormsScreen";
 import CalendarScreen from "./src/CalendarScreen";
-
-const MemberCard = ({
-  source,
-  title,
-  text,
-}: {
-  source: string;
-  title: string;
-  text: string;
-}) => (
-  <ListItem
-    leftAvatar={{ rounded: true, source: source }}
-    title={title}
-    titleStyle={{ color: "black", fontWeight: "bold" }}
-    subtitleStyle={{ color: "black" }}
-    subtitle={text}
-  />
-);
- 
-const CongressPlaceholder = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}>
-    <ScrollView>
-      <MemberCard
-        title="Aria Khiabani"
-        source={require("./assets/photos/Aria.jpg")}
-        text="President"
-      />
-      <MemberCard
-        title="Ying Ge"
-        source={require("./assets/photos/YingG.jpg")}
-        text="Vice President"
-      />
-      <MemberCard
-        title="Amanda Morrone"
-        source={require("./assets/photos/Amanda.jpg")}
-        text="Vice President of Finance"
-      />
-      <MemberCard
-        title="Ying Chen"
-        source={require("./assets/photos/YingC.jpg")}
-        text="Coordinator of Communications"
-      />
-      <MemberCard
-        title="Michael Chalkhoun"
-        source={require("./assets/photos/Michael.jpg")}
-        text="Coordinator of Student Advocacy"
-      />
-      <MemberCard
-        title="Darya Jabbari"
-        source={require("./assets/photos/Darya.jpg")}
-        text="Coordinator of Social Justice"
-      />
-      <MemberCard
-        title="Andrew Petrecca-Berthelet"
-        source={require("./assets/photos/Andrew.jpg")}
-        text="Coordinator of Social Activities"
-      />
-      <MemberCard
-        title="Cherry Sun"
-        source={require("./assets/photos/Cherry.jpg")}
-        text="Coordinator of Volunteering & Charities"
-      />
-      <MemberCard
-        title="Misha Fotovati"
-        source={require("./assets/photos/Misha.jpg")}
-        text="Coordinator of Internal Affairs"
-      />
-      <MemberCard
-        title="Zhaoran Wu"
-        source={require("./assets/photos/Zhaoran.jpg")}
-        text="Coordinator of Cultural Affairs"
-      />
-      <MemberCard
-        title="Steven Gong"
-        source={require("./assets/photos/Steven.jpg")}
-        text="Financial Assistant"
-      />
-      <MemberCard
-        title="Stephanie Wang"
-        source={require("./assets/photos/Stephanie.jpg")}
-        text="Administrative Assistant"
-      />
-      <MemberCard
-        title="Laurence Liang"
-        source={require("./assets/photos/Laurence.jpg")}
-        text="Coordinator of External Affairs"
-      />
-    </ScrollView>
-  </View>
-);
+import CongressScreen from "./src/CongressScreen";
 
 const MSU_LOGO = require("./assets/logo-white.png");
 
@@ -149,7 +59,7 @@ const TabNavScreen = () => (
     <TabNav.Screen name="Resources" component={FilesScreen} />
     {/* <TabNav.Screen name="Forms" component={FormsScreen} /> */}
     <TabNav.Screen name="Calendar" component={CalendarScreen} />
-    <TabNav.Screen name="Congress" component={CongressPlaceholder} />
+    <TabNav.Screen name="Congress" component={CongressScreen} />
   </TabNav.Navigator>
 );
 

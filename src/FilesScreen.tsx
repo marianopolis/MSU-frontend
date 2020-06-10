@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  View,
   StyleSheet,
   TouchableOpacity,
   Text,
-  FlatList,
-  ActivityIndicator,
-  RefreshControl,
   Linking,
 } from "react-native";
 
@@ -14,7 +10,7 @@ import { Card } from "react-native-elements";
 import FileViewer from "react-native-file-viewer";
 import moment from "moment";
 
-import { getResources, downloadFile } from "./api";
+import { getResources, download } from "./api";
 import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
@@ -43,29 +39,21 @@ const styles = StyleSheet.create({
   },
 });
 
-function download(url: string, key: string, version: string) {
-  downloadFile(url, key, version).then(path => {
-    FileViewer.open(`${path}`); // Hack for the error 'Argument of type 'String' is not assignable to parameter of type 'string'.'
-  });
-}
-
 const File = ({
   desc,
   filename,
-  version,
   time,
   url,
 }: {
   desc: string;
   filename?: string;
-  version?: string;
   time: string;
   url: string;
 }) => (
   <TouchableOpacity
     onPress={() => {
       filename
-        ? download(url, filename, version as string)
+        ? download(url, filename).then(path => { FileViewer.open(path); })
         : Linking.openURL(url);
     }}
   >
@@ -83,7 +71,7 @@ const File = ({
 const FilesScreen = () => (
   <NetworkedList
     getData={() => getResources()}
-    networkFailedMsg="Failed to retrive files"
+    networkFailedMsg="Failed to retrieve files"
     listEmptyMsg="No files"
     renderItem={({ item, index }) => (
       <File
@@ -92,9 +80,9 @@ const FilesScreen = () => (
         filename={item.key}
         time={item.updated_at}
         url={item.url}
-        version={item.version}
       />
     )}
+    keyExtractor={item => item.url}
   />
 );
 

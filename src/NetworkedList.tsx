@@ -26,7 +26,7 @@ const NetworkedList = ({
 }: {
   getData: () => Promise<any[]>;
   networkFailedMsg: string;
-  listEmptyMsg: string;
+  listEmptyMsg?: string;
   renderItem: (item: any) => any;
   keyExtractor: (item: any) => string;
 }) => {

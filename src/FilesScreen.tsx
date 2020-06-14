@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  View,
   StyleSheet,
   TouchableOpacity,
   Text,
-  FlatList,
-  ActivityIndicator,
-  RefreshControl,
+  Linking,
 } from "react-native";
 
 import { Card } from "react-native-elements";
 import FileViewer from "react-native-file-viewer";
 import moment from "moment";
 
-import { getFiles, downloadFile } from "./api";
+import { getResources, download } from "./api";
 import NetworkedList from "./NetworkedList";
 
 const styles = StyleSheet.create({
@@ -42,34 +39,30 @@ const styles = StyleSheet.create({
   },
 });
 
-function download(url: string, key: string, version: string) {
-  downloadFile(url, key, version).then(path => {
-    FileViewer.open(`${path}`); // Hack for the error 'Argument of type 'String' is not assignable to parameter of type 'string'.'
-  });
-}
-
 const File = ({
   desc,
   filename,
-  version,
   time,
   url,
 }: {
   desc: string;
-  filename: string;
-  version: string;
+  filename?: string;
   time: string;
   url: string;
 }) => (
   <TouchableOpacity
     onPress={() => {
-      download(url, filename, version);
+      filename
+        ? download(url, filename).then(path => { FileViewer.open(path); })
+        : Linking.openURL(url);
     }}
   >
     <Card containerStyle={styles.card}>
       <Text style={styles.fileTitle}>{desc}</Text>
-      <Text style={styles.fileSubtitle}>
-        {filename} • {moment(time).format('DD/MM/YY [at] LT')}
+      <Text style={styles.fileSubtitle} numberOfLines={2}>
+        {filename
+          ? `${filename} • ${moment(time).format("DD/MM/YY")}`
+          : url}
       </Text>
     </Card>
   </TouchableOpacity>
@@ -77,19 +70,18 @@ const File = ({
 
 const FilesScreen = () => (
   <NetworkedList
-    getData={() => getFiles()}
-    networkFailedMsg="Failed to retrive files"
+    getData={() => getResources()}
     listEmptyMsg="No files"
-    renderItem={({ item }) => (
+    renderItem={({ item, index }) => (
       <File
+        key={index}
         desc={item.desc}
         filename={item.key}
         time={item.updated_at}
         url={item.url}
-        version={item.version}
       />
     )}
-    keyExtractor={item => item.key}
+    keyExtractor={item => item.url}
   />
 );
 

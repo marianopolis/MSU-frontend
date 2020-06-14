@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, FlatList, RefreshControl } from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -17,77 +17,72 @@ const styles = StyleSheet.create({
   },
 });
 
-type NetworkedListProps = {
-  getData: () => Promise<string>;
-  networkFailedMsg: string;
-  listEmptyMsg: string;
+const NetworkedList = ({
+  getData,
+  listEmptyMsg,
+  renderItem,
+  keyExtractor,
+}: {
+  getData: () => Promise<any[]>;
+  listEmptyMsg?: string;
   renderItem: (item: any) => any;
   keyExtractor: (item: any) => string;
-};
+}) => {
+  let [data, setData] = useState<any[]>([]);
+  let [failed, setFailed] = useState(false);
 
-type NetworkedListStates = {
-  data: any;
-  failed: boolean;
-  refreshing: boolean;
-};
+  // At construction, no data are loaded.
+  // Thus, we're already refreshing.
+  let [refreshing, setRefreshing] = useState(true);
 
-class NetworkedList extends Component<NetworkedListProps, NetworkedListStates> {
-  constructor(props: NetworkedListProps) {
-    super(props);
-    this.state = {
-      data: null,
-      failed: false,
-      // At construction, no data are loaded.
-      // Thus, we're already refreshing.
-      refreshing: true,
-    };
+  function refresh() {
+    setRefreshing(true);
+
+    getData()
+      .then(d => {
+        setData(d);
+        setFailed(false);
+      })
+      .catch(e => {
+        console.error(e);
+        setFailed(true);
+      })
+      .finally(() => {
+        setRefreshing(false);
+      });
   }
 
-  componentDidMount = () => {
-    this.refreshData();
-  };
+  useEffect(refresh, []);
 
-  refreshData = () => {
-    this.setState({ refreshing: true });
-
-    this.props
-      .getData()
-      .then(data => this.setState({ data, refreshing: false, failed: false }))
-      .catch((err: any) => {
-        this.setState({ refreshing: false, failed: true });
-        console.error(err);
-      });
-  };
-
-  render = () => (
+  return (
     <View style={styles.view}>
       <FlatList
-        data={this.state.data}
-        renderItem={this.props.renderItem}
-        keyExtractor={this.props.keyExtractor}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         refreshControl={
           <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.refreshData}
+            refreshing={refreshing}
+            onRefresh={refresh}
           />
         }
         // Make ListEmptyComponent take up entire screen.
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={
           <View style={styles.viewCenter}>
-            {this.state.failed ? (
+            {failed ? (
               <>
                 <MaterialIcon name="cloud-off" size={40} />
-                <Text>{this.props.networkFailedMsg}</Text>
+                <Text>Offline</Text>
               </>
             ) : (
-              <Text>{this.props.listEmptyMsg}</Text>
+              <Text>{listEmptyMsg}</Text>
             )}
           </View>
         }
       />
     </View>
   );
-}
+};
 
 export default NetworkedList;

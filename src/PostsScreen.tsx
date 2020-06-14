@@ -46,7 +46,7 @@ const Post = ({
   <Card containerStyle={styles.card}>
     <Markdown>{subject}</Markdown>
     <Text style={styles.postTime}>
-      {moment(time).format('ddd, MMM DD [at] LT ')}
+      {moment(time).format("ddd, MMM DD [at] LT ")}
     </Text>
     <Markdown>{body}</Markdown>
   </Card>
@@ -55,7 +55,6 @@ const Post = ({
 const PostsScreen = () => (
   <NetworkedList
     getData={() => getPosts()}
-    networkFailedMsg="Failed to retrieve posts"
     listEmptyMsg="No posts"
     renderItem={({ item }) => (
       <Post subject={item.subject} body={item.body} time={item.inserted_at} />

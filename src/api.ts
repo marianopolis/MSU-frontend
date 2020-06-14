@@ -9,15 +9,29 @@ function route(endpoint: string) {
   return `${SERVER_URL}/api/${endpoint}`;
 }
 
-function getData(item: string): Promise<string> {
-  return fetch(route(item), {
-    method: "GET",
-  })
+function getData(item: string): Promise<any[]> {
+  return fetch(route(item), { method: "GET" })
     .then(r => r.json())
-    .then(r => r.data);
+    .then(r => {
+      // Cache the data.
+      AsyncStorage.setItem(item, JSON.stringify(r.data));
+      return r.data;
+    })
+    .catch(e => {
+      // Looks like the request failed.
+      // Look at the cache, and if it's empty then just
+      // return the error. Otherwise, return data from cache
+      return AsyncStorage.getItem(item).then(v => {
+        if (v !== null) {
+          return JSON.parse(v);
+        } else {
+          throw e;
+        }
+      });
+    });
 }
 
-export function getPosts(): Promise<string> {
+export function getPosts(): Promise<any[]> {
   return getData("posts").then(r =>
     r.map(x => ({
       ...x,
@@ -27,7 +41,7 @@ export function getPosts(): Promise<string> {
   );
 }
 
-export function getFiles(): Promise<string> {
+export function getFiles(): Promise<any[]> {
   return getData("files").then(r =>
     r.map(x => ({
       ...x,
@@ -37,18 +51,31 @@ export function getFiles(): Promise<string> {
   );
 }
 
-export function getEvents(): Promise<string> {
-  return getData("events").then(r =>
+export function getResources(): Promise<any[]> {
+  return getData("resources").then(r =>
     r.map(x => ({
       ...x,
-      start_time: new Date(x.start_time),
-      end_time: new Date(x.end_time),
+      inserted_at: new Date(x.inserted_at),
+      updated_at: new Date(x.updated_at),
     })),
   );
 }
 
+/** Events in Google Calendar format.
+ */
 export function getCalendar(): Promise<any> {
-  return getData("calendar");
+  return getData("calendar").then(data =>
+    data.map(event => ({
+      ...event,
+      start: new Date(event.start.dateTime),
+      end: new Date(event.end.dateTime),
+    })),
+  );
+}
+
+
+export function getCongress() {
+  return getData("congress");
 }
 
 export function putForm(data: {
@@ -66,24 +93,13 @@ export function putForm(data: {
   });
 }
 
-export function downloadFile(
-  url: string,
-  key: string,
-  version: string,
-): Promise<String> {
+export async function download(url: string, key: string): Promise<string> {
   const path = `${DIRS.DocumentDir}/${key}`;
+  const exists = await RNFetchBlob.fs.exists(path);
 
-  return AsyncStorage.getItem(key).then((val: any) =>
-    val === version
-      ? path
-      : RNFetchBlob.config({
-          fileCache: true,
-          path: path,
-        })
-          .fetch("GET", url)
-          .then((r: any) => {
-            AsyncStorage.setItem(key, version);
-            return path;
-          }),
-  );
+  if (!exists) {
+    await RNFetchBlob.config({ fileCache: true, path: path }).fetch("GET", url);
+  }
+
+  return path;
 }

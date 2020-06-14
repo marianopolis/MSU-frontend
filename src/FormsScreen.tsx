@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   Alert,
-  View,
   Text,
   StyleSheet,
   ScrollView,
@@ -9,7 +8,7 @@ import {
   Button,
 } from "react-native";
 
-import { putForm } from "./api.js";
+import { putForm } from "./api";
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type FormsScreenProps = {};
 type FormsScreenStates = {
   name: string;
   subject: string;
@@ -58,56 +56,32 @@ type FormsScreenStates = {
   status: string | null;
 };
 
-class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
-  constructor(props: FormsScreenProps) {
-    super(props);
-    this.state = {
-      name: "",
-      subject: "",
-      body: "",
-      status: null, // null | 'success' | 'error'
-    };
-  }
+const FormsScreen = () => {
+  let [name, setName] = useState("");
+  let [subject, setSubject] = useState("");
+  let [body, setBody] = useState("");
+  let [status, setStatus] = useState<null | 'success' | 'error'>(null);
 
-  inputSubject: any = null;
-  inputBody: any = null;
+  let inputSubject = useRef(null);
+  let inputBody = useRef(null);
 
-  submit = () => {
-    putForm({
-      name: this.state.name,
-      subject: this.state.subject,
-      body: this.state.body,
-    })
-      .then(res => {
-        if (res.status === 201) this.submitSuccess();
-        else this.submitError();
+  let submit = useCallback(() => {
+    putForm({name, subject, body})
+      .then(_r => {
+        setName("");
+        setSubject("");
+        setBody("");
+        setStatus("success");
+        Alert.alert("Success!", "Your message has been submitted");
       })
-      .catch(err => {
-        this.submitError();
-        console.error(err);
+      .catch(e => {
+        console.error(e);
+        setStatus("error");
+        Alert.alert("Failure", "Failed to submit your message");
       });
-  };
+  }, [name, subject, body])
 
-  submitSuccess = () => {
-    this.setState({
-      name: "",
-      subject: "",
-      body: "",
-      status: "success",
-    });
-
-    Alert.alert("Success!", "Your message has been submitted");
-  };
-
-  submitError = () => {
-    this.setState({
-      status: "error",
-    });
-
-    Alert.alert("Failure", "Failed to submit your message");
-  };
-
-  render = () => (
+  return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.scrollViewContainer}
@@ -119,46 +93,41 @@ class FormsScreen extends Component<FormsScreenProps, FormsScreenStates> {
 
       <TextInput
         style={styles.input}
-        value={this.state.name}
-        onChangeText={name => this.setState({ name })}
+        value={name}
+        onChangeText={t => setName(t)}
         placeholder="Name (Optional)"
         multiline={false}
         blurOnSubmit={false}
-        onSubmitEditing={_ => {
-          this.inputSubject.focus();
+        onSubmitEditing={() => {
+          inputSubject.current?.focus();
         }}
       />
       <TextInput
         style={styles.input}
-        value={this.state.subject}
-        onChangeText={subject => this.setState({ subject })}
+        value={subject}
+        onChangeText={t => setSubject(t)}
         placeholder="Subject"
         multiline={false}
         blurOnSubmit={false}
-        onSubmitEditing={_ => {
-          this.inputBody.focus();
-        }}
-        ref={r => {
-          this.inputSubject = r;
+        ref={inputSubject}
+        onSubmitEditing={() => {
+          inputBody.current?.focus();
         }}
       />
       <TextInput
         style={styles.input}
-        value={this.state.body}
-        onChangeText={body => this.setState({ body })}
+        value={body}
+        onChangeText={t => setBody(t)}
         placeholder="Message"
         textAlignVertical="top"
         multiline={true}
         numberOfLines={4}
-        ref={r => {
-          this.inputBody = r;
-        }}
+        ref={inputBody}
       />
 
       <Button
         title="Submit"
-        // style={styles.submitButton} // style and buttonStyle doesn't exist in props for Button
-        onPress={this.submit}
+        onPress={submit}
       />
     </ScrollView>
   );

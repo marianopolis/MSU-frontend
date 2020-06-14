@@ -62,13 +62,15 @@ export function getResources(): Promise<any[]> {
 }
 
 /** Events in Google Calendar format.
+ * the dateTime property is specific to non-all-day events
+ * the date property is specific to all-day events
  */
 export function getCalendar(): Promise<any> {
   return getData("calendar").then(data =>
     data.map(event => ({
       ...event,
-      start: new Date(event.start.dateTime),
-      end: new Date(event.end.dateTime),
+      start: new Date( 'dateTime' in event.start ? event.start.dateTime : event.start.date),
+      end: new Date( 'dateTime' in event.end ? event.end.dateTime : event.end.date),
     })),
   );
 }

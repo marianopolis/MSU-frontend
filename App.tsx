@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Config from "react-native-config";
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from "react-native-splash-screen";
 
 import PostsScreen from "./src/PostsScreen";
 import FilesScreen from "./src/FilesScreen";
@@ -14,6 +14,8 @@ import CalendarScreen from "./src/CalendarScreen";
 import CongressScreen from "./src/CongressScreen";
 
 const MSU_LOGO = require("./assets/logo-white.png");
+import messaging from "@react-native-firebase/messaging";
+import {requestUserPermission} from "./notifications.js";
 
 const icons: { [key: string]: any } = {
   Posts: "chat",
@@ -105,7 +107,20 @@ const App = () => {
   }
 
   useEffect(() => {
+    requestUserPermission();
     SplashScreen.hide();
+
+    messaging()
+      .getToken()
+      .then(token => console.log(token));
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
   }, []);
 
   return (

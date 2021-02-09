@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "494893675301",
+    "project_id": "msu-app-d4353",
+    "storage_bucket": "msu-app-d4353.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494893675301:android:e1531c94af3bf7a0c3e0cc",
+        "android_client_info": {
+          "package_name": "com.msucongress.mariapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494893675301-khmf65glkqmo8npkueaj4d9kf6sqs7e7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYTch7Lm1nXtkd_pxKC27ZTLDw41LHCSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494893675301-khmf65glkqmo8npkueaj4d9kf6sqs7e7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

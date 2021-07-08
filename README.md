@@ -90,6 +90,9 @@ In the root, create a file `.env` with the contents:
 ```
 SERVER_URL="<url to backend server>"
 ```
+Devices on the local network can access the server using its local IP address 
+If running the Flask backend in parallel with the frontend, the backend URL is
+`http://<IP address>:5000` 
 
 This configuration can be accessed as such:
 
@@ -126,6 +129,27 @@ $ npm start
 ```
 
 Finally, in another terminal run `npm run android` or `npm run ios`.
+
+If running `npm run android` for the first time, be sure Internet is 
+enabled on the computer as this command installs gradle in the 
+local repository.
+
+## Frequent Debugging Issues
+
+* (For Android devices only) if device not detected or can't install
+app, enable debugging mode.
+* (For Android devices only) ensure Android operating system is
+5 or over for `adb` to function.
+* (For Android devices only) if error message is ambiguous for 
+command `npm run android`, do `npm run android --verbose` for a more
+verbose error message
+run 
+* If command not found in terminal, ensure environment variables
+and paths are correctly configured.
+* If app on mobile device cannot connect to a localhost backend, 
+ensure mobile device's Wifi network is the same as the computer
+where localhost is running.
+* If `npm start` crashes in the terminal, retry running `npm start`.
 
 ## Versioning
 
